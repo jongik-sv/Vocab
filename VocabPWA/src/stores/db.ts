@@ -1,5 +1,5 @@
-import initSqlJs from 'sql.js'
-import wasmUrl from 'sql.js/dist/sql-wasm.wasm?url'
+import wasmUrl from 'sql.js/dist/sql-wasm.wasm?url' // wasm은 URL로 고정(자산 처리)
+import { getSQL } from '../utils/sqljs-loader'      // ✅ 새 로더 사용
 
 const DB_KEY = 'vocab.db'
 const IDB_NAME = 'vocab-db'
@@ -45,7 +45,9 @@ async function idbPut(key: string, data: Uint8Array): Promise<void> {
 }
 
 export async function getDB() {
-  const SQL = await initSqlJs({ locateFile: () => wasmUrl })
+  // ✅ 전역 initSqlJs를 로드한 뒤, wasm 경로를 locateFile로 전달
+  const SQL = await getSQL({ locateFile: () => wasmUrl })
+
   const bin = await idbGet(DB_KEY)
   const db = new SQL.Database(bin || undefined)
 
