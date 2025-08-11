@@ -77,23 +77,57 @@ export const useStudyStore = defineStore('study', {
     async refreshWords() {
       const { db } = await getDB()
       let where = ''
-      if (this.activeChapter !== 'all') where = `WHERE chapter_id=${Number(this.activeChapter)}`
-      else if (this.activeNotebook !== 'all') where = `WHERE notebook_id=${Number(this.activeNotebook)}`
+      const conditions = []
+      
+      // 챕터가 선택된 경우 (챕터 우선)
+      if (this.activeChapter !== 'all') {
+        conditions.push(`chapter_id=${Number(this.activeChapter)}`)
+      }
+      // 노트북이 선택되고 챕터가 'all'인 경우
+      else if (this.activeNotebook !== 'all') {
+        conditions.push(`notebook_id=${Number(this.activeNotebook)}`)
+      }
+      
+      if (conditions.length > 0) {
+        where = `WHERE ${conditions.join(' AND ')}`
+      }
+      
+      console.log(`refreshWords 쿼리: SELECT * FROM words ${where}`)
+      
       const res = db.exec(`SELECT id, notebook_id, chapter_id, headword, phonetic, html_content, tags FROM words ${where} ORDER BY id DESC`)
       this.words = res[0]?.values.map(r => ({
         id: r[0], notebook_id: r[1], chapter_id: r[2],
         headword: r[3], phonetic: r[4], html_content: r[5], tags: r[6]
       })) || []
+      
+      console.log(`refreshWords 결과: ${this.words.length}개 단어`)
     },
 
     async loadQueue() {
       const { db } = await getDB()
       let where = ''
-      if (this.activeChapter !== 'all') where = `WHERE chapter_id=${Number(this.activeChapter)}`
-      else if (this.activeNotebook !== 'all') where = `WHERE notebook_id=${Number(this.activeNotebook)}`
+      const conditions = []
+      
+      // 챕터가 선택된 경우 (챕터 우선)
+      if (this.activeChapter !== 'all') {
+        conditions.push(`chapter_id=${Number(this.activeChapter)}`)
+      }
+      // 노트북이 선택되고 챕터가 'all'인 경우
+      else if (this.activeNotebook !== 'all') {
+        conditions.push(`notebook_id=${Number(this.activeNotebook)}`)
+      }
+      
+      if (conditions.length > 0) {
+        where = `WHERE ${conditions.join(' AND ')}`
+      }
+      
+      console.log(`loadQueue 쿼리: SELECT * FROM words ${where}`)
+      
       const res = db.exec(`SELECT id, headword, html_content FROM words ${where} ORDER BY RANDOM() LIMIT 50`)
       this.queue = res[0]?.values.map(r => ({ id: r[0], headword: r[1], html_content: r[2] })) || []
       this.index = 0
+      
+      console.log(`loadQueue 결과: ${this.queue.length}개 학습 단어`)
     },
 
     async next() { if (this.index < this.queue.length - 1) this.index++ },
@@ -275,38 +309,61 @@ export const useStudyStore = defineStore('study', {
       // 노트북 목록
       const notebooks = db.exec(`SELECT id, name FROM notebooks ORDER BY id`)[0]?.values || []
       
-      // 챕터 목록
+      // 챕터 목록 (상세)
       const chapters = db.exec(`SELECT id, notebook_id, name FROM chapters ORDER BY notebook_id, id`)[0]?.values || []
       
       // 최근 단어 몇 개
       const recentWords = db.exec(`SELECT id, notebook_id, chapter_id, headword FROM words ORDER BY id DESC LIMIT 10`)[0]?.values || []
+      
+      // 챕터별 단어 개수
+      const chapterWordCounts = db.exec(`
+        SELECT c.name, c.id, c.notebook_id, COUNT(w.id) as word_count 
+        FROM chapters c 
+        LEFT JOIN words w ON c.id = w.chapter_id 
+        GROUP BY c.id, c.name, c.notebook_id 
+        ORDER BY c.notebook_id, c.id
+      `)[0]?.values || []
       
       // 현재 필터 상태
       const currentFilters = {
         activeNotebook: this.activeNotebook,
         activeChapter: this.activeChapter,
         wordsCount: this.words.length,
-        queueCount: this.queue.length
+        queueCount: this.queue.length,
+        storeNotebooks: this.notebooks,
+        storeChapters: this.chapters
       }
       
       const debugInfo = {
         counts: { notebooks: notebookCount, chapters: chapterCount, words: wordCount },
         notebooks: notebooks.map(r => ({ id: r[0], name: r[1] })),
         chapters: chapters.map(r => ({ id: r[0], notebook_id: r[1], name: r[2] })),
+        chapterWordCounts: chapterWordCounts.map(r => ({ 
+          name: r[0], id: r[1], notebook_id: r[2], word_count: r[3] 
+        })),
         recentWords: recentWords.map(r => ({ id: r[0], notebook_id: r[1], chapter_id: r[2], headword: r[3] })),
         currentFilters
       }
       
       console.log('=== 데이터베이스 상태 ===', debugInfo)
-      alert(`DB 상태:
-        노트북: ${notebookCount}개
-        챕터: ${chapterCount}개
-        단어: ${wordCount}개
+      
+      const chapterInfo = chapterWordCounts.map(c => `  - ${c.name}: ${c.word_count}개 단어`).join('\n')
+      
+      alert(`📊 데이터베이스 현황:
         
-        현재 표시 중인 단어: ${this.words.length}개
-        현재 필터: 노트북=${this.activeNotebook}, 챕터=${this.activeChapter}
-        
-        자세한 정보는 개발자 도구 콘솔을 확인하세요.`)
+📚 노트북: ${notebookCount}개
+📖 챕터: ${chapterCount}개
+💬 총 단어: ${wordCount}개
+
+📝 챕터별 단어 수:
+${chapterInfo}
+
+🔍 현재 필터:
+  - 노트북: ${this.activeNotebook}
+  - 챕터: ${this.activeChapter}
+  - 표시 단어: ${this.words.length}개
+
+자세한 정보는 개발자 도구 콘솔을 확인하세요.`)
       
       return debugInfo
     }

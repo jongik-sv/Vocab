@@ -33,6 +33,7 @@
         <button class="btn" @click="addSample">샘플 추가</button>
         <button class="btn" @click="backup">백업(JSON)</button>
         <button class="btn" @click="debugDB" style="background:#ff6b6b; color:white">DB 상태 확인</button>
+        <button class="btn" @click="testChapterFilter" style="background:#22c55e; color:white">챕터 필터 테스트</button>
       </div>
 
       <table class="table">
@@ -56,10 +57,29 @@ const store = useStudyStore()
 const words = computed(() => store.words)
 const nbName = ref(''); const chName = ref('')
 const chaptersFiltered = computed(() => {
-  if (store.activeNotebook === 'all') return store.chapters
-  return store.chapters.filter(c => c.notebook_id === Number(store.activeNotebook))
+  const filtered = store.activeNotebook === 'all' 
+    ? store.chapters 
+    : store.chapters.filter(c => c.notebook_id === Number(store.activeNotebook))
+  
+  console.log('챕터 필터링:', {
+    activeNotebook: store.activeNotebook,
+    allChapters: store.chapters.length,
+    filteredChapters: filtered.length,
+    filtered
+  })
+  
+  return filtered
 })
-const reload = () => { store.refreshWords(); store.loadQueue() }
+
+const reload = async () => {
+  console.log('reload 호출됨:', {
+    activeNotebook: store.activeNotebook,
+    activeChapter: store.activeChapter
+  })
+  
+  await store.refreshWords()
+  await store.loadQueue()
+}
 onMounted(async () => { await store.loadMeta(); await store.refreshWords() })
 const addSample = () => store.addSample()
 const del = (id:number) => store.deleteWord(id)
@@ -95,6 +115,50 @@ const debugDB = async () => {
     await store.debugDatabaseState()
   } catch (error) {
     console.error('DB 상태 확인 실패:', error)
+  }
+}
+
+const testChapterFilter = async () => {
+  try {
+    console.log('=== 챕터 필터 테스트 시작 ===')
+    
+    // 현재 상태 로그
+    console.log('현재 상태:', {
+      activeNotebook: store.activeNotebook,
+      activeChapter: store.activeChapter,
+      notebooks: store.notebooks,
+      chapters: store.chapters,
+      words: store.words.length
+    })
+    
+    // 모든 단어장으로 전환
+    store.activeNotebook = 'all'
+    store.activeChapter = 'all'
+    await reload()
+    console.log(`모든 단어장: ${store.words.length}개 단어`)
+    
+    // Imported 단어장이 있다면 선택
+    const importedNotebook = store.notebooks.find(n => n.name === 'Imported')
+    if (importedNotebook) {
+      store.activeNotebook = String(importedNotebook.id)
+      store.activeChapter = 'all'
+      await reload()
+      console.log(`Imported 단어장: ${store.words.length}개 단어`)
+      
+      // 해당 단어장의 첫 번째 챕터 선택
+      const firstChapter = store.chapters.find(c => c.notebook_id === importedNotebook.id)
+      if (firstChapter) {
+        store.activeChapter = String(firstChapter.id)
+        await reload()
+        console.log(`첫 번째 챕터 (${firstChapter.name}): ${store.words.length}개 단어`)
+      }
+    }
+    
+    alert('챕터 필터 테스트 완료! 콘솔을 확인하세요.')
+    
+  } catch (error) {
+    console.error('챕터 필터 테스트 실패:', error)
+    alert('테스트 실패: ' + error.message)
   }
 }
 </script>
