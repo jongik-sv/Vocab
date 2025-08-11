@@ -44,7 +44,34 @@ export function listVoices(langHint: string = 'en') {
     .sort((a,b) => (a.name || '').localeCompare(b.name || ''))
 }
 
-export async function speak(text: string, opts?: { lang?: 'en-US'|'en-GB', rate?: number, pitch?: number }) {
+// TTS 상태 관리 변수
+let isSpeaking = false
+let lastSpeakTime = 0
+
+export async function speak(text: string, opts?: { lang?: 'en-US'|'en-GB', rate?: number, pitch?: number, retries?: number }) {
+  const maxRetries = opts?.retries ?? 2
+  
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      if (attempt > 0) {
+        console.log(`TTS: 재시도 ${attempt}/${maxRetries}`)
+        // 재시도 전 잠깐 대기
+        await new Promise(resolve => setTimeout(resolve, 200))
+      }
+      
+      return await _speakOnce(text, opts)
+    } catch (error) {
+      console.log(`TTS: ${attempt + 1}번째 시도 실패:`, error.message)
+      
+      if (attempt === maxRetries) {
+        console.error('TTS: 모든 재시도 실패')
+        throw error
+      }
+    }
+  }
+}
+
+async function _speakOnce(text: string, opts?: { lang?: 'en-US'|'en-GB', rate?: number, pitch?: number }) {
   if (!text?.trim()) {
     console.warn('TTS: 빈 텍스트입니다.')
     return
@@ -56,6 +83,20 @@ export async function speak(text: string, opts?: { lang?: 'en-US'|'en-GB', rate?
     return
   }
 
+  // 너무 빠른 연속 호출 방지 (300ms 간격으로 줄임)
+  const now = Date.now()
+  if (now - lastSpeakTime < 300) {
+    console.log('TTS: 너무 빠른 호출 - 대기 중...')
+    await new Promise(resolve => setTimeout(resolve, 300 - (now - lastSpeakTime)))
+  }
+  lastSpeakTime = Date.now()
+
+  // 이미 재생 중이면 대기
+  if (isSpeaking) {
+    console.log('TTS: 기존 음성 재생 중 - 대기...')
+    await waitForSpeechEnd()
+  }
+
   // 초기화되지 않았으면 로드
   if (!isInitialized) {
     console.log('TTS: 음성 초기화 중...')
@@ -64,8 +105,27 @@ export async function speak(text: string, opts?: { lang?: 'en-US'|'en-GB', rate?
 
   const synth = window.speechSynthesis
   
-  // 기존 음성 중지
-  try { synth.cancel() } catch {}
+  // 기존 음성 완전 중지 및 대기
+  try { 
+    if (synth.speaking) {
+      synth.cancel()
+      // 취소 완료 대기
+      await new Promise(resolve => {
+        let attempts = 0
+        const checkStopped = () => {
+          if (!synth.speaking || attempts > 10) {
+            resolve(undefined)
+          } else {
+            attempts++
+            setTimeout(checkStopped, 50)
+          }
+        }
+        checkStopped()
+      })
+    }
+  } catch (e) {
+    console.log('TTS: cancel 오류 무시:', e)
+  }
   
   const u = new SpeechSynthesisUtterance(text)
   u.lang = opts?.lang ?? 'en-US'
@@ -86,22 +146,65 @@ export async function speak(text: string, opts?: { lang?: 'en-US'|'en-GB', rate?
     console.warn('TTS: 적절한 음성을 찾을 수 없습니다. 시스템 기본 음성 사용')
   }
 
-  // 이벤트 리스너 추가
-  u.onstart = () => console.log('TTS: 음성 재생 시작')
-  u.onend = () => console.log('TTS: 음성 재생 완료')
-  u.onerror = (e) => {
-    console.error('TTS: 음성 재생 오류:', e)
-    if (e.error === 'not-allowed') {
-      alert('음성 재생이 차단되었습니다. 브라우저 설정에서 음성 권한을 허용해주세요.')
+  // Promise로 음성 재생 완료 대기
+  return new Promise<void>((resolve, reject) => {
+    u.onstart = () => {
+      console.log('TTS: 음성 재생 시작')
+      isSpeaking = true
     }
-  }
+    
+    u.onend = () => {
+      console.log('TTS: 음성 재생 완료')
+      isSpeaking = false
+      resolve()
+    }
+    
+    u.onerror = (e) => {
+      console.error('TTS: 음성 재생 오류:', e.error, e)
+      isSpeaking = false
+      
+      if (e.error === 'not-allowed') {
+        console.warn('TTS: 음성 권한이 차단됨')
+        reject(new Error(`TTS Error: ${e.error}`))
+      } else if (e.error === 'interrupted') {
+        console.log('TTS: 음성이 중단됨 - 정상 처리')
+        resolve() // interrupted는 에러가 아닌 정상 중단으로 처리
+      } else if (e.error === 'synthesis-failed') {
+        console.warn('TTS: 음성 합성 실패 - 재시도 가능')
+        reject(new Error(`TTS Error: ${e.error}`))
+      } else {
+        console.error('TTS: 알 수 없는 오류:', e.error)
+        reject(new Error(`TTS Error: ${e.error}`))
+      }
+    }
 
-  try {
-    synth.speak(u)
-  } catch (error) {
-    console.error('TTS: speak() 호출 오류:', error)
-    alert('음성 재생에 실패했습니다.')
-  }
+    try {
+      synth.speak(u)
+    } catch (error) {
+      console.error('TTS: speak() 호출 오류:', error)
+      isSpeaking = false
+      reject(error)
+    }
+  })
+}
+
+// 음성 재생 완료 대기 함수
+async function waitForSpeechEnd(): Promise<void> {
+  return new Promise(resolve => {
+    const checkInterval = setInterval(() => {
+      if (!isSpeaking && !window.speechSynthesis.speaking) {
+        clearInterval(checkInterval)
+        resolve()
+      }
+    }, 100)
+    
+    // 최대 10초 대기 후 강제 해제
+    setTimeout(() => {
+      clearInterval(checkInterval)
+      isSpeaking = false
+      resolve()
+    }, 10000)
+  })
 }
 
 // TTS 초기화 함수

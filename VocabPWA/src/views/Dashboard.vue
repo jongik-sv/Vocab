@@ -43,13 +43,29 @@ const words = computed(() => store.words)
 const chaptersFiltered = computed(() => {
   const filtered = store.activeNotebook === 'all' 
     ? store.chapters 
-    : store.chapters.filter(c => c.notebook_id === Number(store.activeNotebook))
+    : store.chapters.filter(c => {
+        // 더 안전한 타입 비교: 둘 다 문자열로 변환하여 비교
+        const chapterNotebookId = String(c.notebook_id)
+        const activeNotebookId = String(store.activeNotebook)
+        return chapterNotebookId === activeNotebookId
+      })
   
   console.log('Dashboard 챕터 필터링:', {
     activeNotebook: store.activeNotebook,
+    activeNotebookType: typeof store.activeNotebook,
     allChapters: store.chapters.length,
     filteredChapters: filtered.length,
-    filtered
+    chaptersData: store.chapters.map(c => ({
+      id: c.id,
+      name: c.name,
+      notebook_id: c.notebook_id,
+      notebook_id_type: typeof c.notebook_id
+    })),
+    filtered: filtered.map(c => ({
+      id: c.id,
+      name: c.name,
+      notebook_id: c.notebook_id
+    }))
   })
   
   return filtered
@@ -68,10 +84,10 @@ const onFilterChange = async () => {
 const testTTS = async () => {
   try {
     console.log('Dashboard: TTS 테스트 시작')
-    await store.speakNow('Hello, this is a test message')
+    await store.speakNow('Hello, this is a test message', true)
   } catch (error) {
     console.error('Dashboard: TTS 테스트 실패:', error)
-    alert('음성 테스트 실패: ' + error.message)
+    // showError가 true이므로 store에서 에러 메시지 표시
   }
 }
 

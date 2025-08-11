@@ -12,14 +12,34 @@
 
     <div class="card" style="padding:12px;">
       <div class="stack" style="flex-wrap:wrap; gap:8px; margin-bottom:12px;">
-        <select class="input" style="min-width:160px" v-model="store.activeNotebook" @change="reload">
-          <option value="all">모든 단어장</option>
-          <option v-for="n in store.notebooks" :key="n.id" :value="String(n.id)">{{ n.name }}</option>
-        </select>
-        <select class="input" style="min-width:140px" v-model="store.activeChapter" @change="reload">
-          <option value="all">모든 챕터</option>
-          <option v-for="c in chaptersFiltered" :key="c.id" :value="String(c.id)">{{ c.name }}</option>
-        </select>
+        <div class="stack" style="align-items:center; gap:4px;">
+          <select class="input" style="min-width:160px" v-model="store.activeNotebook" @change="reload">
+            <option value="all">모든 단어장</option>
+            <option v-for="n in store.notebooks" :key="n.id" :value="String(n.id)">{{ n.name }}</option>
+          </select>
+          <button 
+            v-if="store.activeNotebook !== 'all'" 
+            class="btn btn-sm" 
+            @click="deleteNotebook" 
+            style="background:#ef4444; color:white; font-size:12px; padding:4px 8px;"
+            title="선택된 단어장 삭제">
+            🗑️
+          </button>
+        </div>
+        <div class="stack" style="align-items:center; gap:4px;">
+          <select class="input" style="min-width:140px" v-model="store.activeChapter" @change="reload">
+            <option value="all">모든 챕터</option>
+            <option v-for="c in chaptersFiltered" :key="c.id" :value="String(c.id)">{{ c.name }}</option>
+          </select>
+          <button 
+            v-if="store.activeChapter !== 'all'" 
+            class="btn btn-sm" 
+            @click="deleteChapter" 
+            style="background:#f59e0b; color:white; font-size:12px; padding:4px 8px;"
+            title="선택된 챕터 삭제">
+            🗑️
+          </button>
+        </div>
 
         <label class="btn">
           JSON 업로드
@@ -42,18 +62,29 @@
         </label>
         <button class="btn" @click="debugDB" style="background:#ff6b6b; color:white">DB 상태 확인</button>
         <button class="btn" @click="testChapterFilter" style="background:#22c55e; color:white">챕터 필터 테스트</button>
+        <button class="btn" @click="showFirst10" style="background:#3b82f6; color:white">첫 10개 레코드</button>
       </div>
 
-      <table class="table">
-        <thead><tr><th style="width:220px">영어</th><th>내용</th><th style="width:80px"></th></tr></thead>
-        <tbody>
-          <tr v-for="w in words" :key="w.id">
-            <td style="font-weight:600">{{ w.headword }}</td>
-            <td><div v-html="w.html_content" /></td>
-            <td><button class="btn" @click="del(w.id)">삭제</button></td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="vocab-list">
+        <div v-for="w in words" :key="w.id" class="vocab-item" style="margin-bottom: 16px;">
+          <div class="voc">
+            <article class="card">
+              <header class="head">
+                <span class="hw">{{ w.headword }}</span>
+                <div class="meta">
+                  <button class="btn btn-sm" @click="del(w.id)" style="background:#ef4444; color:white; font-size:12px; padding:4px 8px;">삭제</button>
+                </div>
+              </header>
+              <div class="defs">
+                <div v-html="w.html_content" />
+              </div>
+            </article>
+          </div>
+        </div>
+        <div v-if="words.length === 0" style="text-align:center; color:var(--color-text-muted); padding:40px;">
+          선택한 필터에 해당하는 단어가 없습니다.
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -67,13 +98,29 @@ const nbName = ref(''); const chName = ref('')
 const chaptersFiltered = computed(() => {
   const filtered = store.activeNotebook === 'all' 
     ? store.chapters 
-    : store.chapters.filter(c => c.notebook_id === Number(store.activeNotebook))
+    : store.chapters.filter(c => {
+        // 더 안전한 타입 비교: 둘 다 문자열로 변환하여 비교
+        const chapterNotebookId = String(c.notebook_id)
+        const activeNotebookId = String(store.activeNotebook)
+        return chapterNotebookId === activeNotebookId
+      })
   
-  console.log('챕터 필터링:', {
+  console.log('Vocab 챕터 필터링:', {
     activeNotebook: store.activeNotebook,
+    activeNotebookType: typeof store.activeNotebook,
     allChapters: store.chapters.length,
     filteredChapters: filtered.length,
-    filtered
+    chaptersData: store.chapters.map(c => ({
+      id: c.id,
+      name: c.name,
+      notebook_id: c.notebook_id,
+      notebook_id_type: typeof c.notebook_id
+    })),
+    filtered: filtered.map(c => ({
+      id: c.id,
+      name: c.name,
+      notebook_id: c.notebook_id
+    }))
   })
   
   return filtered
@@ -189,6 +236,46 @@ const importDB = async (e: any) => {
       e.target.value = ''
     } catch (error) {
       console.error('DB 가져오기 실패:', error)
+    }
+  }
+}
+
+const showFirst10 = async () => {
+  try {
+    await store.showFirst10Records()
+  } catch (error) {
+    console.error('첫 10개 레코드 조회 실패:', error)
+  }
+}
+
+const deleteNotebook = async () => {
+  if (store.activeNotebook === 'all') return
+  
+  const notebookName = store.notebooks.find(n => n.id === Number(store.activeNotebook))?.name
+  
+  if (confirm(`단어장 "${notebookName}"을(를) 삭제하시겠습니까?\n\n⚠️ 이 단어장의 모든 챕터와 단어가 함께 삭제됩니다.\n이 작업은 되돌릴 수 없습니다.`)) {
+    try {
+      await store.deleteNotebook(Number(store.activeNotebook))
+      alert(`단어장 "${notebookName}"이(가) 성공적으로 삭제되었습니다.`)
+    } catch (error) {
+      console.error('단어장 삭제 실패:', error)
+      alert('단어장 삭제 중 오류가 발생했습니다: ' + error.message)
+    }
+  }
+}
+
+const deleteChapter = async () => {
+  if (store.activeChapter === 'all') return
+  
+  const chapterName = chaptersFiltered.value.find(c => c.id === Number(store.activeChapter))?.name
+  
+  if (confirm(`챕터 "${chapterName}"을(를) 삭제하시겠습니까?\n\n⚠️ 이 챕터의 모든 단어가 함께 삭제됩니다.\n이 작업은 되돌릴 수 없습니다.`)) {
+    try {
+      await store.deleteChapter(Number(store.activeChapter))
+      alert(`챕터 "${chapterName}"이(가) 성공적으로 삭제되었습니다.`)
+    } catch (error) {
+      console.error('챕터 삭제 실패:', error)
+      alert('챕터 삭제 중 오류가 발생했습니다: ' + error.message)
     }
   }
 }

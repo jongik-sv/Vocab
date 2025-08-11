@@ -6,6 +6,7 @@ import router from './router'
 // 전역 스타일(순서 유지)
 import './styles/tokens.css'
 import './styles/base.css'
+import './styles/vocab_shared.css'
 
 // 영구 저장 시도(가능 브라우저)
 import { ensurePersistence } from './utils/persist'

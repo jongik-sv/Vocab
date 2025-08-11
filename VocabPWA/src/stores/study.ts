@@ -161,12 +161,20 @@ export const useStudyStore = defineStore('study', {
       }
     },
     
-    async speakNow(text: string) { 
+    async speakNow(text: string, showError: boolean = false) { 
       try {
         console.log('Store: 음성 재생 요청:', text)
-        await speak(text, { lang: this.ttsLang, rate: this.ttsRate })
+        await speak(text, { 
+          lang: this.ttsLang, 
+          rate: this.ttsRate,
+          retries: 2  // 최대 2회 재시도
+        })
+        console.log('Store: 음성 재생 완료')
       } catch (error) {
         console.error('Store: 음성 재생 실패:', error)
+        if (showError) {
+          alert(`음성 재생 실패: ${error.message}`)
+        }
       }
     },
 
@@ -174,10 +182,39 @@ export const useStudyStore = defineStore('study', {
     async addSample() {
       const { db, persist } = await getDB()
       db.run(`BEGIN`)
-      db.run(`INSERT INTO words(headword, html_content) VALUES ('abandon', '<b>버리다</b><br>예: He abandoned the plan.')`)
-      db.run(`INSERT INTO words(headword, html_content) VALUES ('benefit', '<b>이익</b><br>예: It benefits everyone.')`)
+      
+      // 기본 노트북 생성 (없는 경우)
+      let notebook_id = 1
+      const existingNotebook = db.exec(`SELECT id FROM notebooks WHERE name = 'Sample' LIMIT 1`)
+      if (existingNotebook.length === 0) {
+        db.run(`INSERT INTO notebooks(id, name) VALUES (1, 'Sample')`)
+        console.log('기본 노트북 "Sample" 생성됨')
+      } else {
+        notebook_id = existingNotebook[0].values[0][0]
+      }
+      
+      // 기본 챕터 생성 (없는 경우)
+      let chapter_id = 1
+      const existingChapter = db.exec(`SELECT id FROM chapters WHERE name = 'Basic' AND notebook_id = ? LIMIT 1`, [notebook_id])
+      if (existingChapter.length === 0) {
+        db.run(`INSERT INTO chapters(id, notebook_id, name) VALUES (1, ?, 'Basic')`, [notebook_id])
+        console.log('기본 챕터 "Basic" 생성됨')
+      } else {
+        chapter_id = existingChapter[0].values[0][0]
+      }
+      
+      // 샘플 단어들 삭제 (중복 방지)
+      db.run(`DELETE FROM words WHERE headword IN ('abandon', 'benefit')`)
+      
+      // 노트북과 챕터가 연결된 샘플 단어 추가
+      db.run(`INSERT INTO words(notebook_id, chapter_id, headword, html_content) VALUES (?, ?, 'abandon', '<b>버리다</b><br>예: He abandoned the plan.')`, [notebook_id, chapter_id])
+      db.run(`INSERT INTO words(notebook_id, chapter_id, headword, html_content) VALUES (?, ?, 'benefit', '<b>이익</b><br>예: It benefits everyone.')`, [notebook_id, chapter_id])
+      
       db.run(`COMMIT`)
       await persist()
+      
+      // 메타데이터 다시 로드
+      await this.loadMeta()
       await this.refreshWords()
       if (!this.queue.length) await this.loadQueue()
     },
@@ -186,6 +223,85 @@ export const useStudyStore = defineStore('study', {
       const { db, persist } = await getDB()
       db.run(`DELETE FROM words WHERE id=?`, [id])
       await persist(); await this.refreshWords()
+    },
+
+    // 단어장(노트북) 삭제 - 연관된 챕터와 단어도 함께 삭제
+    async deleteNotebook(notebookId: number) {
+      const { db, persist } = await getDB()
+      
+      try {
+        db.run('BEGIN')
+        
+        // 1. 해당 노트북의 단어들 먼저 삭제
+        const deleteWordsResult = db.run(`DELETE FROM words WHERE notebook_id = ?`, [notebookId])
+        console.log(`삭제된 단어 수: ${deleteWordsResult.changes}`)
+        
+        // 2. 해당 노트북의 챕터들 삭제
+        const deleteChaptersResult = db.run(`DELETE FROM chapters WHERE notebook_id = ?`, [notebookId])
+        console.log(`삭제된 챕터 수: ${deleteChaptersResult.changes}`)
+        
+        // 3. 노트북 삭제
+        const deleteNotebookResult = db.run(`DELETE FROM notebooks WHERE id = ?`, [notebookId])
+        console.log(`삭제된 노트북 수: ${deleteNotebookResult.changes}`)
+        
+        db.run('COMMIT')
+        await persist()
+        
+        // 4. 현재 선택된 노트북이 삭제된 경우 'all'로 리셋
+        if (this.activeNotebook === String(notebookId)) {
+          this.activeNotebook = 'all'
+          this.activeChapter = 'all'
+        }
+        
+        // 5. 메타데이터 및 단어 목록 새로고침
+        await this.loadMeta()
+        await this.refreshWords()
+        
+        console.log(`노트북 ID ${notebookId} 삭제 완료`)
+        return true
+        
+      } catch (error) {
+        db.run('ROLLBACK')
+        console.error('노트북 삭제 실패:', error)
+        throw error
+      }
+    },
+
+    // 챕터 삭제 - 연관된 단어도 함께 삭제
+    async deleteChapter(chapterId: number) {
+      const { db, persist } = await getDB()
+      
+      try {
+        db.run('BEGIN')
+        
+        // 1. 해당 챕터의 단어들 먼저 삭제
+        const deleteWordsResult = db.run(`DELETE FROM words WHERE chapter_id = ?`, [chapterId])
+        console.log(`삭제된 단어 수: ${deleteWordsResult.changes}`)
+        
+        // 2. 챕터 삭제
+        const deleteChapterResult = db.run(`DELETE FROM chapters WHERE id = ?`, [chapterId])
+        console.log(`삭제된 챕터 수: ${deleteChapterResult.changes}`)
+        
+        db.run('COMMIT')
+        await persist()
+        
+        // 3. 현재 선택된 챕터가 삭제된 경우 'all'로 리셋
+        if (this.activeChapter === String(chapterId)) {
+          this.activeChapter = 'all'
+        }
+        
+        // 4. 메타데이터 및 단어 목록 새로고침
+        await this.loadMeta()
+        await this.refreshWords()
+        
+        console.log(`챕터 ID ${chapterId} 삭제 완료`)
+        return true
+        
+      } catch (error) {
+        db.run('ROLLBACK')
+        console.error('챕터 삭제 실패:', error)
+        throw error
+      }
     },
 
     // ---------- 백업/복원 ----------
@@ -207,7 +323,8 @@ export const useStudyStore = defineStore('study', {
         console.log(`JSON 임포트 시작: ${arr.length}개 항목`)
         
         await this.insertObjects(arr.map(w => ({
-          notebook: 'Imported', chapter: 'default',
+          notebook: w.notebook_id || 'Imported', 
+          chapter: w.chapter_id ? String(w.chapter_id) : 'default',
           headword: w.headword, phonetic: w.phonetic, html_content: w.html_content, tags: w.tags
         })))
         
@@ -421,6 +538,37 @@ ${chapterInfo}
 자세한 정보는 개발자 도구 콘솔을 확인하세요.`)
       
       return debugInfo
+    },
+
+    // 10개 레코드 샘플 조회
+    async showFirst10Records() {
+      const { db } = await getDB()
+      
+      try {
+        const result = db.exec(`SELECT id, notebook_id, chapter_id, headword, phonetic FROM words LIMIT 10`)
+        const records = result[0]?.values || []
+        
+        console.log('=== 첫 10개 레코드 ===')
+        records.forEach((row, index) => {
+          console.log(`${index + 1}. ID: ${row[0]}, 노트북ID: ${row[1]}, 챕터ID: ${row[2]}, 단어: ${row[3]}, 발음: ${row[4]}`)
+        })
+        
+        const recordText = records.map((row, index) => 
+          `${index + 1}. ${row[3]} [${row[4] || 'N/A'}] (ID: ${row[0]})`
+        ).join('\n')
+        
+        alert(`📋 첫 10개 단어 레코드:
+
+${recordText}
+
+더 자세한 정보는 개발자 도구 콘솔을 확인하세요.`)
+        
+        return records
+      } catch (error) {
+        console.error('레코드 조회 실패:', error)
+        alert('레코드 조회 중 오류가 발생했습니다.')
+        return []
+      }
     }
   }
 })

@@ -1203,8 +1203,7 @@ This can also explain why the author wrote the book and how it's different from 
 ---
 0139
 [imíːdiitli\]
-immediately
-ad 곧, 바로, 즉시
+immediately ad 곧, 바로, 즉시
 She answered the phone immediately upon hearing it ring.
 그녀는 전화 벨이 울리자마자 즉시 전화를 받았다.
 You can tell immediately that she really cares about what they’re saying. 06모고
@@ -1385,8 +1384,7 @@ If you can’t concentrate due to music, it can lead to serious injuries in some
 ---
 0160
 [ðɛ́əːrfɔ̀ːr\]
-therefore
-ad 그러므로
+therefore ad 그러므로
 Therefore, it is essential to control the amount of food we eat for our well-being. 11모고
 그러므로 건강한 삶을 위해 먹는 음식의 양을 조절하는 것은 필수적이다.
 ---
@@ -1499,8 +1497,7 @@ Some managers, for instance, have required employees to work “off the clock”
 ---
 0173
 [klóusli\]
-closely
-ad 면밀히, 주도하게
+closely ad 면밀히, 주도하게
 First, they watch a dog closely for 15 minutes and count the number of yawns. 10모고
 먼저, 그들은 십오분 동안 개 한 마리를 면밀히 관찰하여 하품한 회수를 센다.
 ---
@@ -1729,15 +1726,13 @@ What you say to yourself influences what you think. 10모고
 ---
 0199
 [kɑ́nstəntli\]
-constantly
-ad 끊임없이, 항상, 계속해서
+constantly ad 끊임없이, 항상, 계속해서
 He was depressed because his friends, his relatives, and even his neighbors constantly asked him for money. 09모고
 그는 친구들, 친척들, 그리고 심지어 이웃사람들 조차 끊임없이 돈을 요구했기 때문에 우울하였다.
 ---
 0200
 [ʌ́ðərwàiz\]
-otherwise
-ad 만약 그렇지 않으면
+otherwise ad 만약 그렇지 않으면
 Questions lead you to examine an issue that otherwise might go unexamined. 07모고
 질문은 하지 않으면 무심코 넘어갈지도 모르는 문제를 조사하게 한다.
 Otherwise, he would have lived the rest of his life as a no-name piano player in a no-name bar. 11모고
@@ -1821,8 +1816,7 @@ With the Internet, people can send comments and questions. 07모고
 ---
 0210
 [láikwàiz\]
-likewise
-ad 똑같이, 마찬가지로
+likewise ad 똑같이, 마찬가지로
 Likewise, Tolkein and his works inspired Lewis to create Narnia, his fantasy world. 09모고
 마찬가지로, 톨킨과 그의 작품들은 루이스가 자신의 공상 세계인 나니아를 창조해 낼 수 있는 영감을 주었다.
 He used reason to inquire into the nature of the universe, and encouraged others to do likewise. 17모고
@@ -1888,8 +1882,7 @@ According to a scientist, house plants can help keep indoor air breathable. 07�
 ---
 0218
 [grǽʤuəli\]
-gradually
-ad 점차, 점진적으로
+gradually ad 점차, 점진적으로
 The body gradually goes back to normal. 09모고
 신체는 점차 정상적인 상태로 돌아가게 된다.
 The number of visitors to Hallasan gradually increased between 2001
@@ -1907,8 +1900,7 @@ For example, they have discovered one of the reasons that two people fall in lov
 ---
 0220
 [régjələːrli\]
-regularly
-ad 정기적으로, 규칙적으로
+regularly ad 정기적으로, 규칙적으로
 If we overeat regularly, we may become obese. 11모고
 만약 우리가 정기적으로 과식한다면, 비만이 될지도 모른다.
 During regularly scheduled meetings, members share their stories,
@@ -2079,8 +2071,7 @@ In addition, touch screens are usually easy for the user to learn. 06모고
 ---
 0240
 [miːnhwail\]
-meanwhile
-ad 반면에, 그 동안
+meanwhile ad 반면에, 그 동안
 Only two people, meanwhile, reacted to the poison ivy leaves. 06모고
 반면, 오직 두명만 덩굴옻나무에 반응했을 뿐이었다.
 Meanwhile, computer hardware and software make up half of the total Internet purchases in the United States. 10모고
@@ -2249,8 +2240,7 @@ Sometimes the blood supply to the brain is not effective. 09모고
 ---
 0259
 [stil\]
-still
-ad 그럼에도 불구하고
+still ad 그럼에도 불구하고
 ⓐ 정지한, 움직이지 않는
 Still, people don’t take drunk driving seriously. 07모고
 그럼에도 불구하고, 사람들은 음주 운전을 심각하게 받아들이지 않는다.
@@ -2414,8 +2404,7 @@ The only way to get through life, he concludes, is to beat people.  11모고
 ---
 0278
 [mɔːróuvəːr\]
-moreover
-ad 게다가, 더욱이
+moreover ad 게다가, 더욱이
 She had, moreover, been brought up with great care by her aunt,
 Katrin. 12모고
 더욱이 그녀는 숙모 카트린의 지극한 보살핌을 받고 자랐다.
@@ -2612,8 +2601,7 @@ To solve this problem, the French had marked the track with black oil drums and 
 ---
 0300
 [sláitli\]
-slightly
-ad 약간, 조금
+slightly ad 약간, 조금
 Try on both shoes, as most people have one foot that is slightly larger than the other. 11모고
 대부분 사람들은 한 쪽 발이 다른 한 쪽보다 약간 크기 때문에 양쪽 신발 모두를 신어보아라.
 ---
@@ -2956,8 +2944,7 @@ We fully support the Personal Information Protection Act. 11모고
 ---
 0339
 [ikstríːmli\]
-extremely
-ad 대단히, 몹시
+extremely ad 대단히, 몹시
 The water was extremely cold, so he designed and wore a new suit.  06모고
 그 물은 몹시 차가웠고 그는 새 슈트를 디자인하여 입었다.
 Three extremely important inventions came out of Mesopotamia: the wheel, the plow, and the sailboat. 14모고
@@ -3289,8 +3276,7 @@ Even though you do not intend to become a lawyer, a radio or television announce
 ---
 0378
 [gréitli\]
-greatly
-ad 대단히, 상당히, 매우
+greatly ad 대단히, 상당히, 매우
 You will be greatly disturbed by the music. 08모고
 음악이 상당히 방해가 될 것이다.
 First, traffic death rates have been greatly reduced. 12모고
@@ -3471,15 +3457,13 @@ When a daughter is grown, her mother tends to long to recapture the intense phys
 ---
 0399
 [béisikəli\]
-basically
-ad 기본적으로, 근본적으로
+basically ad 기본적으로, 근본적으로
 Basically, almost everything we see or hear today comes to us in digital form. 08모고
 기본적으로 오늘날 우리가 보고 듣는 거의 모든 것은 디지털 형태로 되고 있다.
 ---
 0400
 [rʌ́fli\]
-roughly
-ad 개략적으로, 대략적으로, 거칠게
+roughly ad 개략적으로, 대략적으로, 거칠게
 The decline continued in 1985 to reach an all time low of roughly 900.  06모고
 천구백팔십오년에도 계속 감소하여 대략 구백마리로 최저치에 달했다.
 American kids under 18 send and receive roughly 2,800 texts per month. 11모고
@@ -4152,15 +4136,13 @@ The violent reality of war has a damaging effect on every level of our humanity 
 ---
 0479
 [ʃɑ́ːrpli\]
-sharply
-ad 급격하게
+sharply ad 급격하게
 As a result, drunk driving will be sharply reduced. 07모고
 그 결과, 음주 운전은 급격히 줄어들 것이다.
 ---
 0480
 [ríːs-əntli\]
-recently
-ad 최근에
+recently ad 최근에
 The organizers of a pop music concert in Hong Kong recently faced a problem. 06모고
 홍콩에서 대중음악 공연 기획자들은 최근 어떤 문제에 직면하게 되었다.
 ---
@@ -4764,8 +4746,7 @@ Because these two requirements are not met, it’s only natural that people do n
 ---
 0551
 [rǽðəːr\]
-rather
-ad 상당히, 꽤
+rather ad 상당히, 꽤
 The island of Puerto Rico is rather small. 07모고
 푸에르토리코 섬은 상당히 작다.
 They are playing, rather well, something familiar by Beethoven.
@@ -4825,8 +4806,7 @@ A few years ago, we heard a party of chimpanzees vocalizing loudly in the distan
 ---
 0558
 [lɑ́ːrdʒli\]
-largely
-ad 대부분, 주로, 대체로
+largely ad 대부분, 주로, 대체로
 The methods of science have largely taken away reliance on the supernatural ― but not entirely. 12모고
 과학의 방법들은 대체로 초자연적인 것에 대한 의존을 없앴지만 완전히 그러지는 못했다.
 ---
@@ -4837,8 +4817,7 @@ As a result, the business will not realize the maximum profit possible.
 ---
 0560
 [fɛ́ərli\]
-fairly
-ad 꽤, 대단히, 상당히
+fairly ad 꽤, 대단히, 상당히
 The reason is fairly simple. 07모고
 이유는 꽤 간단하다.
 Go to a fairly quiet place where you are not likely to be disturbed.
@@ -4925,8 +4904,7 @@ In one hour, his gin processed the same amount that required ten hours of slave 
 ---
 0570
 [stédili\]
-steadily
-ad 지속적으로, 꾸준히
+steadily ad 지속적으로, 꾸준히
 Since 2002, the number of foreigners visiting Korea has steadily increased. 10모고
 이천이년 이래로 한국을 방문하는 외국인의 수는 지속적으로 증가하였다.
 The class size steadily decreased from 1990 to 2005. 06모고
@@ -5178,8 +5156,7 @@ Having a dog in the office had a positive effect on the general atmosphere.
 ---
 0600
 [ǽktʃuəli\]
-actually
-ad 실제로는, 사실은
+actually ad 실제로는, 사실은
 I actually had expected nothing, but he had known a great truth.  09모고
 사실 난 그에게 아무 것도 기대하지 않았지만, 그는 대단한 진리를 알고 있었다.
 Information is worthless if you never actually use it.
@@ -5273,8 +5250,7 @@ Members of minority groups in general have poorer health outcomes than the major
 ---
 0611
 [əbrɔ́ːd\]
-abroad
-ad 외국으로, 해외로
+abroad ad 외국으로, 해외로
 Students studying abroad often feel so isolated. 10모고
 해외에서 공부하는 학생들은 흔히 고립되었다고 느낀다.
 If you are abroad, English is likely to be somewhat different from the way you speak it. 15모고
@@ -5348,8 +5324,7 @@ Free parking permits will be provided only to those who have registered in advan
 ---
 0620
 [nʌ̀nðəlés\]
-nonetheless
-ad 그럼에도 불구하고
+nonetheless ad 그럼에도 불구하고
 Non-exercise activities burn calories at a slower rate than intentional exercise, but they burn calories nonetheless. 08모고
 비운동적인 활동들은 의도적인 운동보다는 느린 속도로 칼로리를 소모하지만, 그럼에도 불구하고 칼로리를 소모시킨다.
 Nonetheless, they usually throw away a very nutritious part of the fruit―the peel. 06수능
@@ -6025,8 +6000,7 @@ The navy believed a crow would always fly straight for the nearest point of land
 ---
 0700
 [nèvəːrð-əlés\]
-nevertheless
-ad 그럼에도 불구하고
+nevertheless ad 그럼에도 불구하고
 Nevertheless, the people in Vienna saw him as just another ordinary composer. 08모고
 그럼에도 불구하고 비엔나 사람들은 그를 그저 그런 평범한 작곡가로 생각했다.
 ---
@@ -6349,8 +6323,7 @@ The singing of birds, murmuring of a stream, whispering of the wind, and happy t
 ---
 0738
 [níərli\]
-nearly
-ad 거의
+nearly ad 거의
 Most people spend nearly a third of their lives asleep. 08모고
 대부분의 사람들은 그들 삶의 거의 삼분의 일을 잠을 자면서 보낸다.
 That’s enough paper money to fill nearly 2,000 garbage trucks. 08모고
@@ -6486,8 +6459,7 @@ You’ve probably heard the expression, “first impressions matter a lot”.  1
 ---
 0754
 [inkríːsiŋli\]
-increasingly
-ad 점점, 더욱더
+increasingly ad 점점, 더욱더
 As music becomes more accessible, it is increasingly easy for music to be copied. 14모고
 음악에 접근하기가 더 쉬워지면서, 음악이 복제되는 것이 점차 쉬워진다.
 Island nations may be beautiful, but they can be easily affected by outside forces that increasingly threaten their survival. 08모고
@@ -6520,15 +6492,13 @@ Are you looking for a cozy, sweet home at a reasonable price? Here is the right 
 ---
 0758
 [fə́ːrðəːrmɔ̀ːr\]
-furthermore
-ad 더구나
+furthermore ad 더구나
 Furthermore, banning them from the school lunch menu would not save the children. 08모고
 게다가 그것을 학교 점심 메뉴에서 금지시키는 것이 그 아이들을 구하지는 못할 것이다.
 ---
 0759
 [ivéntʃuəli\]
-eventually
-ad 마침내, 결국은, 결국에는
+eventually ad 마침내, 결국은, 결국에는
 They eventually came to be used throughout the world. 13모고
 그것들은 마침내 전 세계에서 사용되게 되었다.
 ---
@@ -6705,8 +6675,7 @@ Children develop the capacity for solitude in the presence of an attentive other
 ---
 0780
 [signífikəntli\]
-significantly
-ad 대단히, 상당히
+significantly ad 대단히, 상당히
 The researcher found that the ratings of the records increased significantly. 13모고
 연구자는 음반들에 대한 평가가 상당히 높아졌음을 알아냈다.
 The study suggests that drinking at least three cups a day significantly improves attention and memory. 14모고
@@ -7026,8 +6995,7 @@ In perceiving changes, we tend to regard the most recent ones as the most revolu
 ---
 0818
 [æ̀ksidéntli\]
-accidentally
-ad 우연히
+accidentally ad 우연히
 A young man lost his eye-sight when his father accidentally fired his gun.
 09모고 한 젊은이가 그의 아버지가 우발적으로 총을 쏘았을 때 시력을 잃었다.
 Accidentally an inkpot fell onto her beloved handkerchief causing a huge ugly spot. 15모고
@@ -7035,8 +7003,7 @@ Accidentally an inkpot fell onto her beloved handkerchief causing a huge ugly sp
 ---
 0819
 [əprɑ́ksəmèitli\]
-approximately
-ad 대략, 대략의
+approximately ad 대략, 대략의
 According to the report the average temperature in Europe has gone up approximately 2 degree. 11모고
 보고서에 따르면 유럽에서의 평균온도가 대략 이도 정도 상승했다.
 Statistically speaking, people ages 65 and older send or receive approximately just one text-message per day. 11모고
@@ -7044,8 +7011,7 @@ Statistically speaking, people ages 65 and older send or receive approximately j
 ---
 0820
 [æ̀bsəlúːtli\]
-absolutely
-ad 절대적으로, 물론, 완전
+absolutely ad 절대적으로, 물론, 완전
 You’ll share a wonderful journey of discovery with us absolutely free of charge! 08모고
 당신은 완전 무료로 환상적인 발견의 여행을 우리와 함께 하게 될 것입니다.
 I was absolutely thrilled because I would soon communicate with a new cell phone! 21모고
@@ -7121,8 +7087,7 @@ The president continued, “Ted, I know you’ve desperately wanted this promoti
 ---
 0829
 [iːzli\]
-easily
-ad 용이하게, 쉽게
+easily ad 용이하게, 쉽게
 You can do it easily and you don’t need to go to the gym. 11모고
 당신은 쉽게 그것을 할 수 있으며 체육관에 갈 필요가 없다.
 ---
@@ -7206,8 +7171,7 @@ In the past whenever there was a forest fire, the forest keepers immediately put
 ---
 0839
 [bisáidz\]
-besides
-ad 게다가
+besides ad 게다가
 Besides, questions can help you develop your relationship with teachers. 07모고 게다가, 질문은 선생님과의 관계를 발전시키도록 도와준다.
 ---
 0840
@@ -7373,8 +7337,7 @@ For example, if you can’t think of a good opening, write another section of yo
 ---
 0859
 [kɑ́nʃəsli\]
-consciously
-ad 의식적으로
+consciously ad 의식적으로
 Breathing is something you do without thinking, but it can be consciously controlled. 11모고
 호흡은 당신이 생각하지 않고 하는 것이지만, 호흡은 의식적으로 통제될 수 있다.
 ---
@@ -7570,8 +7533,7 @@ The customer’s account is charged, and the merchandise is delivered to his doo
 ---
 0883
 [práiər\]
-prior
-ad ~보다 전에, 사전에
+prior ad ~보다 전에, 사전에
 Prior to Hammurabi’s ruling, the various ethnic groups within Babylonia governed themselves according to their own customs. 09모고
 함무라비의 통치 이전에 바빌로니아에서 다양한 민족들은 그들 자신의 관습에 따라 통치하고 있었다.
 In every case the perceptual process is the same: Prior experience colors perception. 10모고
@@ -7692,8 +7654,7 @@ Researchers have proved that all brains are female until about sixty days after 
 ---
 0897
 [bǽdli\]
-badly
-ad 몹시, 심하게, 나쁘게
+badly ad 몹시, 심하게, 나쁘게
 My legs were trembling so badly that I could hardly stand still. 14모고
 다리가 심하게 떨려서 나는 거의 가만히 서 있을 수가 없었다.
 Several years later, Billy’s high school classmate was badly hurt in an accident. 12모고
@@ -7717,8 +7678,7 @@ They just talked and talked and talked, apparently with no purpose.  10모고
 ---
 0900
 [əbrʌ́ptli\]
-abruptly
-ad 갑자기, 갑작스러운
+abruptly ad 갑자기, 갑작스러운
 You may want to stop talking with him and abruptly break away to start a conversation with that other person. 11모고
 당신은 그와 이야기하는 것을 중단하고 그 다른 사람과의 대화를 시작하기 위해서 갑자기 가버리고 싶은 마음이 생길 수도 있다.
 ---
@@ -7886,8 +7846,7 @@ Planning a trip to an unfamiliar place is like running a whitewater rapid.
 ---
 0920
 [həbítʃuəli\]
-habitually
-ad 습관적으로
+habitually ad 습관적으로
 A friend of mine had a wife who was habitually late. 09모고
 내 친구 중, 아내가 습관적으로 늦는 한 친구가 있었다.
 Many of us live our lives without examining why we habitually do what we do and think what we think. 19모고
@@ -8013,8 +7972,7 @@ He disguised his identity to look like a farmer.
 ---
 0935
 [æbnɔ́ːrməlli\]
-abnormally
-ad 비정상적으로
+abnormally ad 비정상적으로
 He has an abnormally big head.
 그는 머리가 비정상적으로 크다.
 Therefore, if north winds are extremely cold in one part of the world,
@@ -8526,8 +8484,7 @@ Output decreases over time when there are no breaks. 13모고
 ---
 0996
 [iníʃəli\]
-initially
-ad 처음의, 최초의
+initially ad 처음의, 최초의
 In the same way, planning a trip to a foreign destination can initially seem puzzling. 10모고
 마찬가지로, 낯선 목적지로 가는 여행을 계획하는 것은 처음에는 어리둥절하게 보일지도 모른다.
 Thus, probably most of the consumer behavior patterns initially learned by children are copies of those of their parents, particularly their mom. 12모고
@@ -8619,8 +8576,7 @@ Yet despite its small size, Puerto Rico has a wide variety of landscape.
 ---
 1007
 [ǽkjəritli\]
-accurately
-ad 정확하게
+accurately ad 정확하게
 Paintings do not have to represent history accurately. 07모고
 그림이 역사를 정확히 표현할 필요는 없다.
 Today, scientists collect information worldwide so that they can understand and predict changes in the weather more accurately.  12모고
@@ -8880,8 +8836,7 @@ Pratt found that drop-out rates were reduced when the patient’s spouse was inc
 ---
 1038
 [pouténʃəli\]
-potentially
-ad 잠재적으로
+potentially ad 잠재적으로
 International computer companies see a potentially huge market for their products in Africa. 08모고
 세계적인 컴퓨터 회사들은 아프리카에서의 자사 제품에 대한 잠재적으로 거대한 시장에 눈을 돌린다.
 ---
@@ -9040,8 +8995,7 @@ Aristotle organized his teaching very thoroughly, and his Lyceum resembled a mod
 ---
 1057
 [háili\]
-highly
-ad 대단히, 매우
+highly ad 대단히, 매우
 They believe that I am highly gifted. 09모고
 그들은 내가 대단히 타고난 재능이 많다고 믿는다.
 ---
@@ -9064,8 +9018,7 @@ Having a personality means showing a consistent pattern of behavior over time. 1
 ---
 1060
 [kɑ́nsikwèntli\]
-consequently
-ad 결과적으로
+consequently ad 결과적으로
 Consequently, less money flows into the banks, which will decrease the money they keep. 05모고
 결과적으로, 적은 돈이 은행에 유입되면서, 이것은 다시 은행들이 보유한 돈을 감소시킬 것이다.
 ---
@@ -9117,8 +9070,7 @@ Parents are responsible for providing their children with the basic necessities 
 ---
 1066
 [bǽkwərd\]
-backward
-ad 뒤쪽
+backward ad 뒤쪽
 During this spin move, the skater’s face looks backward. 07모고
 회전 동작을 하는 동안 스케이트 선수의 얼굴은 뒤쪽을 바라보고 있다.
 Grandfather walked backward on the ice, at first holding Tommy’s hands, but then he let go and Tommy moved toward him. 17모고
@@ -9209,8 +9161,7 @@ Over the given period of time, the average rainfall for spring in each year was 
 ---
 1077
 [indíd\]
-indeed
-ad 실로, 참으로
+indeed ad 실로, 참으로
 Indeed, language changes lives. 20모고
 실제로, 언어는 삶을 변화시킨다.
 ---
@@ -9451,8 +9402,7 @@ The change from a struggling, active survival to today’s more inactive lifesty
 ---
 1106
 [ìndəvídʒuəli\]
-individually
-ad 개별적으로, 하나하나, 낱낱이
+individually ad 개별적으로, 하나하나, 낱낱이
 Alton’s Cookie is rectangular shaped and wrapped individually. 10모고
 알톤의 쿠키는 직사각형 모양이고 개별 포장되어 있습니다.
 ---
@@ -9554,8 +9504,7 @@ Actually, per unit of matter, the brain uses by far more energy than our other o
 ---
 1119
 [əkɔ́ːrdiŋli\]
-accordingly
-ad 그에 따라, 따라서, 그러므로
+accordingly ad 그에 따라, 따라서, 그러므로
 Your team will quickly learn what your standards are and perform accordingly. 02모고
 당신의 팀은 당신의 기준이 무엇인지 재빨리 알아서 그에 따라 행할 것이다.
 The key is to learn what your baby needs and respond to them accordingly. 13모고
@@ -9572,8 +9521,7 @@ After a certain age, anxieties arise when sudden cultural changes are coming. 19
 ---
 1121
 [lítərəli\]
-literally
-ad 글자 뜻 그대로, 문자 그대로
+literally ad 글자 뜻 그대로, 문자 그대로
 Here the clothes are literally covering up the person’s sense of insecurity. 06모고
 여기서는 옷이 글자 뜻 그대로 그 사람의 불안감을 가려주는 것이다.
 ---
@@ -9706,8 +9654,7 @@ He found that the tears caused by sadness contained more total protein than thos
 ---
 1137
 [fɑ́ːrðər\]
-farther
-ad 더 멀리
+farther ad 더 멀리
 The farther out in space you go, the less gravity there is. 06모고
 여러분이 지구에서 멀어질수록 중력도 약해진다.
 I asked her how much farther she had to go, and it turned out her home was two hours back the other way. 20모고
@@ -10236,8 +10183,7 @@ Surprisingly, the latter group felt less stressed and had lower blood pressure. 
 ---
 1200
 [míərli\]
-merely
-ad 그저, 단순하게
+merely ad 그저, 단순하게
 Instead of being satisfied, most of us merely want more. 08모고
 만족하는 대신에 우리 대부분은 그저 더 많은 것을 바랄 뿐이다.
 They find that merely touching an object increases the feelings of ownership a person has for the object. 12모고
@@ -10548,22 +10494,19 @@ Experts have identified a large number of measures that promote energy efficienc
 ---
 1238
 [hwɛəːrbái\]
-whereby
-ad 그것에 의해
+whereby ad 그것에 의해
 But years of stress and poor lifestyle have left us with shallow, rapid breathing, whereby we use only the top third of our lungs. 11모고
 하지만 수년간의 스트레스와 좋지 못한 생활방식은 우리로 하여금 얕고 빠른 호흡을 하도록하며, 그것에 의해 우리는 오직 우리의 폐 윗부분 삼분의 일만 사용한다.
 ---
 1239
 [náu-ədèiz\]
-nowadays
-ad 요즘, 현재에는
+nowadays ad 요즘, 현재에는
 Nowadays more and more people keep this using computers. 08모고
 요즘 더욱 많은 사람들이 컴퓨터를 사용해서 이것을 쓴다.
 ---
 1240
 [hɑ́ːrdli\]
-hardly
-ad 전혀 ~않는, 좀처럼 ~않는
+hardly ad 전혀 ~않는, 좀처럼 ~않는
 My family and I enjoyed the scenery, and there was hardly any traffic.  13모고
 우리 가족과 나는 경치를 즐겼고, 그 길에는 교통체증이 거의 없었다.
 Finally, when I had to say farewell to him, his eyes were full of tears and I could hardly leave him. 07모고
@@ -10725,8 +10668,7 @@ A fever also stimulates a child’s immune system, causing it to increase produc
 ---
 1260
 [ʌ́ltəmitli\]
-ultimately
-ad 결국에는, 궁극의
+ultimately ad 결국에는, 궁극의
 All language is ultimately at the service of human interaction. 20모고
 모든 언어는 궁극적으로 인간의 상호 작용을 위한 것이다.
 Ultimately, the doctor allows his patients to reach an informed decision about their own health conditions. 14모고
@@ -10890,8 +10832,7 @@ Each person was rubbed on one arm with a harmless leaf. 06모고
 ---
 1280
 [kwait\]
-quite
-ad 매우, 꽤
+quite ad 매우, 꽤
 The parents of today’s teenagers were raised quite differently. 06모고
 오늘날 십대들의 부모들은 매우 다르게 양육되었다.
 The transportation system for the travelers is developed quite well.  11모고
@@ -11040,8 +10981,7 @@ But when Ben introduced himself and asked the guard for his permission to look a
 ---
 1298
 [rélətivli\]
-relatively
-ad 상대적으로, 비교적으로
+relatively ad 상대적으로, 비교적으로
 The body of the tongue remains relatively low compared with the tip.
 10모고 혀의 나머지 부분은 혀끝에 비해 비교적 낮게 위치한다.
 The palm is relatively flat and thus far less likely to trigger a shock.
@@ -11083,8 +11023,7 @@ But the sweeping beautiful view made the hard climb worthwhile.  01수능
 ---
 1303
 [finǽnʃəli\]
-financially
-ad 경제적으로, 재정적으로
+financially ad 경제적으로, 재정적으로
 The long-term result was that one dad grew weaker and the other grew stronger financially. 09모고
 장기적 결과로 보면 한 아버지는 경제적으로 약해졌고, 다른 아버지는 경제적으로 더 강해졌다.
 ---
@@ -11108,8 +11047,7 @@ I am Kyle Thomas, the president of the school’s English writing club.  21모�
 ---
 1306
 [énihwɛ̀ər\]
-anywhere
-ad 어디에서나
+anywhere ad 어디에서나
 Anytime, anywhere, Alton’s Cookie is the perfect choice. 10모고
 언제나, 어디에서나, 알톤의 쿠키는 최고의 선택입니다.
 Native to a tropical climate, this leafy tree can survive almost anywhere in the world. 14모고
@@ -11211,8 +11149,7 @@ The least popular film genre is drama. 06모고
 ---
 1319
 [pə́ːrpəsli\]
-purposely
-ad 고의로, 일부러, 의도적으로
+purposely ad 고의로, 일부러, 의도적으로
 I purposely chose one large family and another family that were obviously visitors to Canada. 11모고
 나는 의도적으로 사람 수가 많은 한 가족과 캐나다를 방문한 사람들임에 틀림없는 또 다른한 가족을 선택했다.
 ---
@@ -11691,8 +11628,7 @@ According to a large restaurant owner, his servers are taught to present trays o
 ---
 1378
 [féiɵfəli\]
-faithfully
-ad 충실히, 성실히
+faithfully ad 충실히, 성실히
 We also faithfully funded the Social Security system during our working years. 11모고
 또한 우리가 일하는 동안 우리는 사회보장기금을 성실히 적립하였다.
 ---
@@ -12038,8 +11974,7 @@ Immortality, which means living forever, has been an unreachable ambition for ma
 ---
 1420
 [pìəriɑ́dikəli\]
-periodically
-ad 주기적으로
+periodically ad 주기적으로
 We have fire drills periodically for safety.
 우리는 안전을 위해 주기적으로 화재 훈련을 한다.
 ---
@@ -12224,8 +12159,7 @@ A remark may be made to cause your anger, but responding with a cool answer that
 ---
 1443
 [hwɛ-ərévəːr\]
-wherever
-ad 어디든지 ~하는 곳에
+wherever ad 어디든지 ~하는 곳에
 Wherever you go on this globe, you can get along with English. 15모고
 당신은 이 지구상 어디를 가든지, 영어로 살아갈 수 있다.
 ---
@@ -12288,8 +12222,7 @@ I can’t stand her arrogance any longer.
 ---
 1451
 [lɑ́dʒikəli\]
-logically
-ad 논리적으로
+logically ad 논리적으로
 Logically, since it is warmer, the breeding season is beginning earlier,
 and insects are given more time to mate. 11모고
 논리적으로 보면, 기온이 더 따뜻하기 때문에 산란기가 더 빨리 시작되고, 그러면 곤충들에게는 짝짓기를 위한 시간이 더 많이 주어진다.
@@ -12521,8 +12454,7 @@ Patricia is eager to be the best mom she can be, but she finds parenting a hard 
 ---
 1479
 [sʌ́bsikwəntli\]
-subsequently
-ad 그 후, 그 결과
+subsequently ad 그 후, 그 결과
 Animals, such as monkeys and leafcutter ants, thrived and subsequently destroyed vegetation. 10모고
 원숭이나 가위 개미와 같은 동물들이 왕성히 번식하여 그 결과 식물계를 파괴했다.
 The disabling neurological symptoms were subsequently called Minamata disease. 18수능
@@ -12672,8 +12604,7 @@ Many parents do not understand why their teenagers occasionally behave in an irr
 ---
 1498
 [défənitli\]
-definitely
-ad 확실히, 틀림없이, 분명히
+definitely ad 확실히, 틀림없이, 분명히
 I definitely think the words ‘garage’ and ‘garbage’ must be related.  12모고
 나는 분명히 차고와 쓰레기라는 단어들이 연관되어 있음에 틀림없다고 생각한다.
 Through those mistakes we have learned what works and definitely what doesn’t. 16모고
@@ -12681,8 +12612,7 @@ Through those mistakes we have learned what works and definitely what doesn’t.
 ---
 1499
 [sʌ́mhwɛ̀əːr\]
-somewhere
-ad 어딘가에서
+somewhere ad 어딘가에서
 First, firefighters must move people from the building to somewhere safe. 06모고
 우선 소방관들은 건물로부터 사람들을 다른 안전한 어딘가로 이동시켜야 한다.
 ---
@@ -12739,15 +12669,13 @@ Hearing occurs when sound waves travel through the air, enter your ears, and are
 ---
 1506
 [júːnəfɔ̀ːrmli\]
-uniformly
-ad 다 같이, 한결같이
+uniformly ad 다 같이, 한결같이
 The athletes were required to wear uniforms uniformly during competitions.
 선수들은 대회 중에 다 같이 유니폼을 입도록 요구되었다.
 ---
 1507
 [brískli\]
-briskly
-ad 활발히, 힘차게
+briskly ad 활발히, 힘차게
 Briskly walking 10 minutes around the neighborhood, three times a day, satisfies your daily exercise requirement. 11모고
 일주일에 세 번 힘차게 동네 주변을 십분 간 걷는 것은 당신의 일일 운동 요구량을 충족시킨다.
 ---
@@ -12798,8 +12726,7 @@ Some people disagree with the idea of exposing three years old to computers. 16�
 ---
 1513
 [iksépʃənəli\]
-exceptionally
-ad 매우, 뛰어난
+exceptionally ad 매우, 뛰어난
 Humans are exceptionally good at recognizing faces they’ve seen before. 09모고
 인간은 자신이 예전에 본 얼굴을 기억하는 것을 매우 잘 한다.
 Why do you put time and energy into moving from poor to good when that same time and energy can be devoted to doing things which you can do exceptionally well? 07모고
@@ -12828,8 +12755,7 @@ Comets are usually fairly predictable. 11모고
 ---
 1517
 [spɑntéiniəsli\]
-spontaneously
-ad 자동적으로, 자발적으로
+spontaneously ad 자동적으로, 자발적으로
 This happens spontaneously when we feel a particular emotion.  19모고
 이것은 우리가 특정한 감정을 느낄 때 자동적으로 일어난다.
 Hearing occurs spontaneously with little conscious effort on your part.  06모고
@@ -13163,8 +13089,7 @@ Whitney was disturbed by his glimpse of slavery and the backbreaking demands of 
 ---
 1558
 [frǽntikəli\]
-frantically
-ad 미친 듯이
+frantically ad 미친 듯이
 Fearful of the result, he frantically searched the bed. 07모고
 그는 결과에 겁이 나서 미친 듯이 침대를 뒤졌다.
 On arriving at the bus stop, I started frantically searching for my purse.  05수능
@@ -13347,8 +13272,7 @@ When you learn a new word it takes several repetitions at various intervals for 
 ---
 1580
 [pərtíkjələrli\]
-particularly
-ad 특히
+particularly ad 특히
 It’s a good college and I know that the history department there is particularly strong. 15모고
 그곳은 좋은 대학이고, 그곳의 역사학과가 특히 우수한 것으로 알고 있단다.
 ---
@@ -13411,8 +13335,7 @@ They wondered what the moon was made of. 11모고
 ---
 1588
 [déspəritli\]
-desperately
-ad 절실하게, 필사적으로
+desperately ad 절실하게, 필사적으로
 What poor countries desperately need is the chance to stand on their own feet. 06모고
 가난한 국가들에게 절실하게 필요한 것은 그들 스스로 자립할 수 있는 기회를 갖는 것이다.
 We desperately need people who can foretell the future. They help us narrow the infinity of possible futures down to one or, at least, a few.  05수능
@@ -13671,8 +13594,7 @@ It is the intuitive force that sparks our imaginations and opens pathways to lif
 ---
 1620
 [rispéktivli\]
-respectively
-ad 각각, 각각의
+respectively ad 각각, 각각의
 The graph above shows the purchase rate of goods on the Internet in Australia and the United States respectively in 2002. 10모고
 위 그래프는 이천이년 호주와 미국 각각의 나라에서 인터넷을 통한 상품 구매율을 보여준다.
 ---
@@ -14293,8 +14215,7 @@ Most children are used to reading the classics published as the popular versions
 ---
 1696
 [kǽʒuəli\]
-casually
-ad 격이 없는
+casually ad 격이 없는
 In many instances the cause has been cultural, such as wearing inappropriate clothing in a conservative culture or approaching a business relationship too casually. 06모고
 많은 경우에 그 원인은 보수적인 문화에서 부적절한 옷을 입거나 사업 관계를 너무 격이 없이 접근하는 것과 같은 문화적인 것이 원인이었다.
 ---
@@ -14316,8 +14237,7 @@ Longevity is a two sided coin, with quantity on one side and quality on the othe
 ---
 1699
 [ínstəntli\]
-instantly
-ad 즉각, 즉시
+instantly ad 즉각, 즉시
 We can contact people instantly, wherever they are. 15모고
 우리는 사람들이 어디에 있든지 그들과 즉각 연락할 수 있다.
 People feel more satisfied if they are rewarded instantly regardless of the amount of money. 13모고
@@ -14356,8 +14276,7 @@ Her hardworking nature was an inspiration to everyone around her.
 ---
 1704
 [rǽdik-əli\]
-radically
-ad 급격하게
+radically ad 급격하게
 Technological advancements have radically transformed the way we communicate.
 기술적 발전은 의사소통 방식을 급격하게 변화시켰다.
 In the last twenty years or so research on the brain has radically changed the way intelligence is understood. 15모고
@@ -14406,8 +14325,7 @@ Mother Teresa was considered a saint for her selfless work.
 ---
 1710
 [líːɵ-əl\]
-lethally
-ad 치사의, 치명적인
+lethally ad 치사의, 치명적인
 His mother was called Cleopatra after the queen of Egypt who was lethally bitten by a snake. 09모고
 그의 엄마는 뱀에 물려 죽은 이집트의 여왕의 이름을 따서 클레오파트라라고 불렸다.
 Exposure to radiation can be lethally harmful.
@@ -14487,8 +14405,7 @@ Some people are more sensitive to side effects than others.
 ---
 1720
 [pɑ́ːrtli\]
-partly
-ad 부분적으로, 일부는
+partly ad 부분적으로, 일부는
 It’s partly because they think their parents will stop reading bedtime stories to them if they can read. 09모고
 그것은 부분적으로 그들이 글을 읽을 수 있게 되면 그들의 부모가 그들에게 옛날이야기를 읽어주는 것을 멈출 것이라고 생각하기 때문이다.
 ---
@@ -14963,8 +14880,7 @@ In the West, if a farmer wanted to become more efficient or to increase his yiel
 ---
 1778
 [fə́ːrmli\]
-firmly
-ad 단호하게
+firmly ad 단호하게
 The man rolled over in bed and said firmly, “No, sir. I told you, I can sleep when the wind blows.” 11모고
 그는 침대에서 뒤척이며 단호하게 말했다. “아니요, 제가 말했듯이 저는 바람이 심하게 불 때도 푹 잘 수 있어요.”
 ---
@@ -15797,8 +15713,7 @@ I also wish you to know that even though I may no longer be a member, I still si
 ---
 1880
 [əkéiʒənəli\]
-occasionally
-ad 가끔
+occasionally ad 가끔
 Occasionally, when teenagers play video games, they get motion sickness. 10모고
 가끔 십대들이 비디오 게임을 할 때 멀미를 느낀다.
 Joyce and I see each other only occasionally, but when we’re together it’s as if we just saw each other yesterday. 99수능
@@ -16610,8 +16525,7 @@ Boole was forced to leave school at the age of sixteen after his father’s busi
 ---
 1979
 [kíːnli\]
-keenly 
-ad 날카롭게, 강하게
+keenly ad 날카롭게, 강하게
 With my dog’s death, I became keenly aware of the shortness of life.  06모고
 내 강아지의 죽음으로, 나는 인생이 짧다는 것을 강하게 인식하게 되었다.
 ---
@@ -16746,8 +16660,7 @@ You can use my phone so long as you don’t make international calls.
 ---
 1996
 [rɛəːrli\]
-rarely 
-ad 좀처럼 ~하지 않는, 거의 ~않는
+rarely ad 좀처럼 ~하지 않는, 거의 ~않는
 The plants rarely have flowers and never set seed, so replanting portions of the corm is the only way to grow this plant. 06모고
 이 작물은 거의 꽃이 피지 않고 전혀 씨를 맺지 않아서, 알뿌리의 일부분을 옮겨 심는 것이 이작물의 유일한 재배 방법이다.
 Cultures have rarely been completely isolated from outside influence, because throughout human history people have been moving from one place to another, spreading goods and ideas. 15모고
@@ -16755,8 +16668,8 @@ Cultures have rarely been completely isolated from outside influence, because th
 ---
 1997
 [hwɑtévəːr]
-whatever 
-pn ~하는 것은 무엇이든
+whatever pn
+~하는 것은 무엇이든
 Usually the prince shared whatever he had with others. 21모고
 평소에 그 왕자는 자신이 가지고 있는 어떤 것이든 다른 사람들과 나눴다.
 He would offer them whatever he was given and they would eat it together. 21모고
@@ -16764,14 +16677,12 @@ He would offer them whatever he was given and they would eat it together. 21모�
 ---
 1998
 [hɑːfwéi\]
-halfway
-ad 도중에, 중간에
+halfway ad 도중에, 중간에
 Halfway to the door I heard her behind me, “Hi, Kevin.” 08모고
 문 쪽으로 가는 도중에 그녀가 뒤에서 “안녕, 케빈.” 하고 말하는 것을 들었다.
 ---
 1999
-as if 
-마치 ~처럼
+as if 마치 ~처럼
 It was such a frightening moment that Morgan and Sanz ran away as if they saw ghosts. 11모고
 그것은 너무나 무서운 순간이어서 모건과 산즈는 마치 그들이 유령들을 본 것처럼 달아났다.
 People can actually end up appearing more foolish when they act as if they had knowledge that they do not. 11모고
