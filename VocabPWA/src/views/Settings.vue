@@ -28,10 +28,23 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { useStudyStore } from '../stores/study'
+
 const store = useStudyStore()
-const test = () => store.speakNow('dictionary')
+
+const test = async () => {
+  try {
+    console.log('Settings: TTS 테스트 시작')
+    await store.speakNow('Dictionary pronunciation test. This is working correctly.')
+  } catch (error) {
+    console.error('Settings: TTS 테스트 실패:', error)
+    alert('음성 테스트 실패: ' + error.message)
+  }
+}
+
 const backup = () => store.backupJSON()
+
 const restore = async (e:any) => {
   const f = e.target.files?.[0]
   if (f) {
@@ -45,4 +58,10 @@ const restore = async (e:any) => {
     }
   }
 }
+
+onMounted(async () => {
+  console.log('Settings: TTS 초기화 시작')
+  await store.initTts()
+  console.log('Settings: TTS 초기화 완료')
+})
 </script>

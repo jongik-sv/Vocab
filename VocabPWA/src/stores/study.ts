@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { getDB, idbPut, DB_KEY } from './db'
-import { speak, loadVoices } from '../utils/tts'
+import { speak, loadVoices, initTTS } from '../utils/tts'
 import { pdfToJson, type VocabJson } from '../utils/pdf2json'
 
 function todayStr() {
@@ -150,8 +150,25 @@ export const useStudyStore = defineStore('study', {
     setActiveChapter(id: string){ this.activeChapter = id },
 
     // ---------- TTS ----------
-    async initTts() { await loadVoices() },
-    speakNow(text:string){ speak(text, { lang: this.ttsLang, rate: this.ttsRate }) },
+    async initTts() { 
+      try {
+        console.log('Store: TTS 초기화 시작')
+        await initTTS()
+        await loadVoices()
+        console.log('Store: TTS 초기화 완료')
+      } catch (error) {
+        console.error('Store: TTS 초기화 실패:', error)
+      }
+    },
+    
+    async speakNow(text: string) { 
+      try {
+        console.log('Store: 음성 재생 요청:', text)
+        await speak(text, { lang: this.ttsLang, rate: this.ttsRate })
+      } catch (error) {
+        console.error('Store: 음성 재생 실패:', error)
+      }
+    },
 
     // ---------- 샘플 ----------
     async addSample() {

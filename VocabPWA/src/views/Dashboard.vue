@@ -20,7 +20,10 @@
             <option v-for="c in chaptersFiltered" :key="c.id" :value="String(c.id)">{{ c.name }}</option>
           </select>
         </div>
-        <div style="color:var(--color-text-muted)">단어 수: {{ words.length }}</div>
+        <div class="stack" style="color:var(--color-text-muted); gap: 8px;">
+          <span>단어 수: {{ words.length }}</span>
+          <button class="btn btnGhost" @click="testTTS" style="padding: 4px 8px; font-size: 12px;">🔊 음성 테스트</button>
+        </div>
       </div>
       <div class="mt3" style="height:10px; background:#e5e7eb33; border-radius:999px; overflow:hidden;">
         <div :style="{width: store.progressPercent + '%', height:'100%', background:'linear-gradient(90deg, var(--color-brand-400), var(--color-brand))'}"></div>
@@ -33,12 +36,53 @@
 <script setup lang="ts">
 import { onMounted, computed } from 'vue'
 import { useStudyStore } from '../stores/study'
+
 const store = useStudyStore()
 const words = computed(() => store.words)
+
 const chaptersFiltered = computed(() => {
-  if (store.activeNotebook === 'all') return store.chapters
-  return store.chapters.filter(c => c.notebook_id === Number(store.activeNotebook))
+  const filtered = store.activeNotebook === 'all' 
+    ? store.chapters 
+    : store.chapters.filter(c => c.notebook_id === Number(store.activeNotebook))
+  
+  console.log('Dashboard 챕터 필터링:', {
+    activeNotebook: store.activeNotebook,
+    allChapters: store.chapters.length,
+    filteredChapters: filtered.length,
+    filtered
+  })
+  
+  return filtered
 })
-const onFilterChange = () => { store.refreshWords(); store.loadQueue() }
-onMounted(async () => { await store.loadMeta(); await store.refreshWords(); await store.loadStats() })
+
+const onFilterChange = async () => {
+  console.log('Dashboard 필터 변경됨:', {
+    activeNotebook: store.activeNotebook,
+    activeChapter: store.activeChapter
+  })
+  
+  await store.refreshWords()
+  await store.loadQueue()
+}
+
+const testTTS = async () => {
+  try {
+    console.log('Dashboard: TTS 테스트 시작')
+    await store.speakNow('Hello, this is a test message')
+  } catch (error) {
+    console.error('Dashboard: TTS 테스트 실패:', error)
+    alert('음성 테스트 실패: ' + error.message)
+  }
+}
+
+onMounted(async () => { 
+  console.log('Dashboard 마운트 시작')
+  await store.loadMeta()
+  await store.refreshWords()
+  await store.loadStats()
+  
+  // TTS 초기화도 함께
+  await store.initTts()
+  console.log('Dashboard 마운트 완료')
+})
 </script>

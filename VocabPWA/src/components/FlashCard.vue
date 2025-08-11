@@ -34,7 +34,11 @@ const flip = ref(false)
 const store = useStudyStore()
 
 watch(() => props.word?.id, () => { flip.value = false })
-onMounted(() => store.initTts())
+onMounted(async () => {
+  console.log('FlashCard: TTS 초기화 시작')
+  await store.initTts()
+  console.log('FlashCard: TTS 초기화 완료')
+})
 </script>
 
 <style scoped>
