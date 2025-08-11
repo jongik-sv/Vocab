@@ -148,12 +148,34 @@ export const useStudyStore = defineStore('study', {
     },
 
     async restoreJSON(file: File){
-      const text = await file.text()
-      const arr = JSON.parse(text) as Array<any>
-      await this.insertObjects(arr.map(w => ({
-        notebook: 'Imported', chapter: 'default',
-        headword: w.headword, phonetic: w.phonetic, html_content: w.html_content, tags: w.tags
-      })))
+      try {
+        const text = await file.text()
+        const arr = JSON.parse(text) as Array<any>
+        
+        // 임포트할 데이터 개수 확인
+        console.log(`JSON 임포트 시작: ${arr.length}개 항목`)
+        
+        await this.insertObjects(arr.map(w => ({
+          notebook: 'Imported', chapter: 'default',
+          headword: w.headword, phonetic: w.phonetic, html_content: w.html_content, tags: w.tags
+        })))
+        
+        // 임포트 완료 후 Imported 단어장으로 자동 전환
+        const importedNotebook = this.notebooks.find(n => n.name === 'Imported')
+        if (importedNotebook) {
+          this.activeNotebook = String(importedNotebook.id)
+          this.activeChapter = 'all'
+          await this.refreshWords()
+          await this.loadQueue()
+        }
+        
+        console.log(`JSON 임포트 완료: ${arr.length}개 항목이 성공적으로 임포트되었습니다.`)
+        alert(`${arr.length}개의 단어가 성공적으로 임포트되었습니다!`)
+        
+      } catch (error) {
+        console.error('JSON 임포트 오류:', error)
+        alert('JSON 파일 임포트 중 오류가 발생했습니다. 파일 형식을 확인해주세요.')
+      }
     },
 
     async restorePDF(file: File){
@@ -163,18 +185,73 @@ export const useStudyStore = defineStore('study', {
 
     async insertObjects(items: VocabJson){
       const { db, persist } = await getDB()
-      db.run('BEGIN')
-      for (const w of items) {
-        const nb = await this.upsertNotebook(w.notebook)
-        const ch = await this.upsertChapter(nb, w.chapter)
-        db.run(
-          `INSERT INTO words(notebook_id, chapter_id, headword, phonetic, html_content, tags) VALUES (?, ?, ?, ?, ?, ?)`,
-          [nb, ch, w.headword, w.phonetic || null, w.html_content || '', w.tags || null]
-        )
+      let insertedCount = 0
+      
+      try {
+        db.run('BEGIN')
+        
+        for (const w of items) {
+          // 필수 필드 확인
+          if (!w.headword || w.headword.trim() === '') {
+            console.warn('빈 headword 건너뜀:', w)
+            continue
+          }
+          
+          // 트랜잭션 내에서 안전한 upsert 수행
+          const nb = await this.upsertNotebookInTx(db, w.notebook)
+          const ch = await this.upsertChapterInTx(db, nb, w.chapter)
+          
+          // 중복 확인 (선택사항: 동일한 headword가 이미 존재하는지 확인)
+          const existing = db.exec(
+            `SELECT id FROM words WHERE notebook_id=? AND chapter_id=? AND headword=?`,
+            [nb, ch, w.headword]
+          )
+          
+          if (existing[0]?.values?.length > 0) {
+            console.warn('중복 단어 건너뜀:', w.headword)
+            continue
+          }
+          
+          db.run(
+            `INSERT INTO words(notebook_id, chapter_id, headword, phonetic, html_content, tags) VALUES (?, ?, ?, ?, ?, ?)`,
+            [nb, ch, w.headword, w.phonetic || null, w.html_content || '', w.tags || null]
+          )
+          insertedCount++
+        }
+        
+        db.run('COMMIT')
+        await persist()
+        
+        console.log(`데이터베이스에 ${insertedCount}개 단어 삽입 완료`)
+        
+        // 메타데이터 및 단어 목록 새로고침
+        await this.loadMeta()
+        await this.refreshWords()
+        if (!this.queue.length) await this.loadQueue()
+        
+      } catch (error) {
+        db.run('ROLLBACK')
+        console.error('insertObjects 오류:', error)
+        throw error
       }
-      db.run('COMMIT'); await persist()
-      await this.loadMeta(); await this.refreshWords()
-      if (!this.queue.length) await this.loadQueue()
+      
+      return insertedCount
+    },
+
+    // 트랜잭션 내에서 사용하는 notebook upsert (persist 호출 안함)
+    async upsertNotebookInTx(db: any, name: string): Promise<number> {
+      const q = db.exec(`SELECT id FROM notebooks WHERE name=?`, [name])[0]?.values?.[0]?.[0]
+      if (q) return q as number
+      db.run(`INSERT INTO notebooks(name) VALUES (?)`, [name])
+      return db.exec(`SELECT id FROM notebooks WHERE name=?`, [name])[0].values[0][0] as number
+    },
+
+    // 트랜잭션 내에서 사용하는 chapter upsert (persist 호출 안함)
+    async upsertChapterInTx(db: any, notebook_id: number, name: string): Promise<number> {
+      const q = db.exec(`SELECT id FROM chapters WHERE notebook_id=? AND name=?`, [notebook_id, name])[0]?.values?.[0]?.[0]
+      if (q) return q as number
+      db.run(`INSERT INTO chapters(notebook_id,name) VALUES (?,?)`, [notebook_id, name])
+      return db.exec(`SELECT id FROM chapters WHERE notebook_id=? AND name=?`, [notebook_id, name])[0].values[0][0] as number
     },
 
     // ---------- stats ----------
@@ -184,6 +261,54 @@ export const useStudyStore = defineStore('study', {
       this.statsDaily = (res[0]?.values || []).map(r => ({ date: r[0] as string, learned_count: r[1] as number }))
       // totalLearned 근사치(단순 합)
       this.totalLearned = this.statsDaily.reduce((s,x)=>s+x.learned_count,0)
+    },
+
+    // ---------- debug ----------
+    async debugDatabaseState() {
+      const { db } = await getDB()
+      
+      // 테이블별 데이터 개수 확인
+      const notebookCount = db.exec(`SELECT COUNT(*) as count FROM notebooks`)[0]?.values[0][0] || 0
+      const chapterCount = db.exec(`SELECT COUNT(*) as count FROM chapters`)[0]?.values[0][0] || 0
+      const wordCount = db.exec(`SELECT COUNT(*) as count FROM words`)[0]?.values[0][0] || 0
+      
+      // 노트북 목록
+      const notebooks = db.exec(`SELECT id, name FROM notebooks ORDER BY id`)[0]?.values || []
+      
+      // 챕터 목록
+      const chapters = db.exec(`SELECT id, notebook_id, name FROM chapters ORDER BY notebook_id, id`)[0]?.values || []
+      
+      // 최근 단어 몇 개
+      const recentWords = db.exec(`SELECT id, notebook_id, chapter_id, headword FROM words ORDER BY id DESC LIMIT 10`)[0]?.values || []
+      
+      // 현재 필터 상태
+      const currentFilters = {
+        activeNotebook: this.activeNotebook,
+        activeChapter: this.activeChapter,
+        wordsCount: this.words.length,
+        queueCount: this.queue.length
+      }
+      
+      const debugInfo = {
+        counts: { notebooks: notebookCount, chapters: chapterCount, words: wordCount },
+        notebooks: notebooks.map(r => ({ id: r[0], name: r[1] })),
+        chapters: chapters.map(r => ({ id: r[0], notebook_id: r[1], name: r[2] })),
+        recentWords: recentWords.map(r => ({ id: r[0], notebook_id: r[1], chapter_id: r[2], headword: r[3] })),
+        currentFilters
+      }
+      
+      console.log('=== 데이터베이스 상태 ===', debugInfo)
+      alert(`DB 상태:
+        노트북: ${notebookCount}개
+        챕터: ${chapterCount}개
+        단어: ${wordCount}개
+        
+        현재 표시 중인 단어: ${this.words.length}개
+        현재 필터: 노트북=${this.activeNotebook}, 챕터=${this.activeChapter}
+        
+        자세한 정보는 개발자 도구 콘솔을 확인하세요.`)
+      
+      return debugInfo
     }
   }
 })

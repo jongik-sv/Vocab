@@ -32,6 +32,7 @@
 
         <button class="btn" @click="addSample">샘플 추가</button>
         <button class="btn" @click="backup">백업(JSON)</button>
+        <button class="btn" @click="debugDB" style="background:#ff6b6b; color:white">DB 상태 확인</button>
       </div>
 
       <table class="table">
@@ -63,7 +64,19 @@ onMounted(async () => { await store.loadMeta(); await store.refreshWords() })
 const addSample = () => store.addSample()
 const del = (id:number) => store.deleteWord(id)
 const backup = () => store.backupJSON()
-const onJson = (e:any) => { const f = e.target.files?.[0]; if (f) store.restoreJSON(f) }
+const onJson = async (e:any) => {
+  const f = e.target.files?.[0]
+  if (f) {
+    try {
+      console.log('JSON 파일 선택됨:', f.name)
+      await store.restoreJSON(f)
+      // 파일 입력 필드 초기화
+      e.target.value = ''
+    } catch (error) {
+      console.error('JSON 업로드 실패:', error)
+    }
+  }
+}
 const onPdf  = (e:any) => { const f = e.target.files?.[0]; if (f) store.restorePDF(f) }
 
 const createNotebook = async () => {
@@ -75,5 +88,13 @@ const createChapter = async () => {
   if (store.activeNotebook === 'all' || !chName.value.trim()) return
   await store.upsertChapter(Number(store.activeNotebook), chName.value.trim())
   chName.value = ''; await store.loadMeta()
+}
+
+const debugDB = async () => {
+  try {
+    await store.debugDatabaseState()
+  } catch (error) {
+    console.error('DB 상태 확인 실패:', error)
+  }
 }
 </script>

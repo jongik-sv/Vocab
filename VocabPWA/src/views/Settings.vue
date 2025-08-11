@@ -32,5 +32,17 @@ import { useStudyStore } from '../stores/study'
 const store = useStudyStore()
 const test = () => store.speakNow('dictionary')
 const backup = () => store.backupJSON()
-const restore = (e:any) => { const f = e.target.files?.[0]; if (f) store.restoreJSON(f) }
+const restore = async (e:any) => {
+  const f = e.target.files?.[0]
+  if (f) {
+    try {
+      console.log('JSON 파일 선택됨:', f.name)
+      await store.restoreJSON(f)
+      // 파일 입력 필드 초기화
+      e.target.value = ''
+    } catch (error) {
+      console.error('JSON 복원 실패:', error)
+    }
+  }
+}
 </script>
