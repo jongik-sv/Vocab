@@ -32,6 +32,14 @@
 
         <button class="btn" @click="addSample">샘플 추가</button>
         <button class="btn" @click="backup">백업(JSON)</button>
+        <label class="btn" style="background:#8b5cf6; color:white">
+          DB 파일 내보내기
+          <span @click="exportDB" style="cursor:pointer">💾</span>
+        </label>
+        <label class="btn" style="background:#06b6d4; color:white">
+          DB 파일 가져오기
+          <input type="file" accept=".db,application/x-sqlite3" hidden @change="importDB"/>
+        </label>
         <button class="btn" @click="debugDB" style="background:#ff6b6b; color:white">DB 상태 확인</button>
         <button class="btn" @click="testChapterFilter" style="background:#22c55e; color:white">챕터 필터 테스트</button>
       </div>
@@ -159,6 +167,29 @@ const testChapterFilter = async () => {
   } catch (error) {
     console.error('챕터 필터 테스트 실패:', error)
     alert('테스트 실패: ' + error.message)
+  }
+}
+
+const exportDB = async () => {
+  try {
+    await store.exportSQLiteDB()
+  } catch (error) {
+    console.error('DB 내보내기 실패:', error)
+    alert('DB 내보내기 실패: ' + error.message)
+  }
+}
+
+const importDB = async (e: any) => {
+  const f = e.target.files?.[0]
+  if (f) {
+    try {
+      console.log('DB 파일 선택됨:', f.name)
+      await store.importSQLiteDB(f)
+      // 파일 입력 필드 초기화
+      e.target.value = ''
+    } catch (error) {
+      console.error('DB 가져오기 실패:', error)
+    }
   }
 }
 </script>

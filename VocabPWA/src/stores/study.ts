@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { getDB } from './db'
+import { getDB, idbPut, DB_KEY } from './db'
 import { speak, loadVoices } from '../utils/tts'
 import { pdfToJson, type VocabJson } from '../utils/pdf2json'
 
@@ -295,6 +295,44 @@ export const useStudyStore = defineStore('study', {
       this.statsDaily = (res[0]?.values || []).map(r => ({ date: r[0] as string, learned_count: r[1] as number }))
       // totalLearned 근사치(단순 합)
       this.totalLearned = this.statsDaily.reduce((s,x)=>s+x.learned_count,0)
+    },
+
+    // ---------- backup/restore ----------
+    async exportSQLiteDB() {
+      const { db } = await getDB()
+      const data = db.export()
+      const blob = new Blob([data], { type: 'application/x-sqlite3' })
+      const a = document.createElement('a')
+      a.href = URL.createObjectURL(blob)
+      a.download = `vocab-database-${new Date().toISOString().slice(0,10)}.db`
+      a.click()
+      console.log('SQLite DB 파일 내보내기 완료')
+    },
+
+    async importSQLiteDB(file: File) {
+      try {
+        const arrayBuffer = await file.arrayBuffer()
+        const data = new Uint8Array(arrayBuffer)
+        
+        // 기존 데이터 백업 확인
+        const confirm = window.confirm('기존 데이터가 모두 삭제됩니다. 계속하시겠습니까?')
+        if (!confirm) return
+        
+        // IndexedDB에 저장
+        await idbPut(DB_KEY, data)
+        
+        // 메타데이터 새로고침
+        await this.loadMeta()
+        await this.refreshWords()
+        await this.loadQueue()
+        
+        alert('SQLite DB 파일 가져오기 완료!')
+        console.log('SQLite DB 파일 가져오기 완료')
+        
+      } catch (error) {
+        console.error('SQLite DB 가져오기 실패:', error)
+        alert('DB 파일 가져오기에 실패했습니다.')
+      }
     },
 
     // ---------- debug ----------

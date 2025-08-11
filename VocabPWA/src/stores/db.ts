@@ -91,3 +91,6 @@ export async function getDB() {
   const persist = async () => { await idbPut(DB_KEY, db.export()) }
   return { db, persist }
 }
+
+// DB helper 함수들 export
+export { idbPut, idbGet, DB_KEY }
