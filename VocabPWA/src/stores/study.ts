@@ -142,9 +142,17 @@ export const useStudyStore = defineStore('study', {
       const cur = this.queue[this.index]
       if (!cur) return
       this.todayLearned++; this.totalLearned++
-      // 일일 통계 반영(UPSERT 안전하게)
+      
+      // 외움 상태 업데이트 및 일일 통계 반영
       const { db, persist } = await getDB()
       const today = todayStr()
+      const now = new Date().toISOString()
+      
+      // word_status에 MEMORIZED 상태로 업데이트
+      db.run(`INSERT OR REPLACE INTO word_status(word_id, status, last_reviewed_at, next_due_at) VALUES (?, 'MEMORIZED', ?, ?)`, 
+        [cur.id, now, now])
+      
+      // 일일 통계 반영(UPSERT 안전하게)
       db.run(`INSERT OR IGNORE INTO stats_daily(date, learned_count) VALUES (?, 0)`, [today])
       db.run(`UPDATE stats_daily SET learned_count = learned_count + 1 WHERE date=?`, [today])
       await persist()
