@@ -469,16 +469,13 @@ onErrorCaptured((err) => {
   font-size: 16px;
   line-height: 1.6;
   width: 100%;
+  height: 100%;
   color: var(--color-text);
   text-align: left;
   overflow-y: auto;
-  max-height: 300px;
-  /* 단어장과 동일한 배경 */
-  background: var(--color-surface, #ffffff);
-  border-radius: 12px;
-  padding: 16px;
-  border: 1px solid var(--color-border, #e5e7eb);
-  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  /* 전체 영역 사용 */
+  padding: 0;
+  margin: 0;
 }
 
 /* 카드 내부 스타일 조정 - 단어장과 동일하게 */
@@ -486,6 +483,10 @@ onErrorCaptured((err) => {
   font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,'Apple SD Gothic Neo','Noto Sans KR',Helvetica,Arial,sans-serif;
   line-height: 1.6;
   display: block;
+  /* 전체 콘텐츠에 패딩 적용 */
+  padding: 16px;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .card-content :deep(.voc .card) {
