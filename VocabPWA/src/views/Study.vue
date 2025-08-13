@@ -38,9 +38,20 @@
           v-for="(word, index) in store.queue" 
           :key="word.id" 
           :ref="el => cardRefs[index] = el"
-          :class="['flashcard-item', { 'current': index === store.index }]"
+          :class="['flashcard-item', { 
+            'current': index === store.index,
+            'flying': flyingCards[index],
+            'celebrating': celebratingCards[index]
+          }]"
         >
           <div class="card-number">{{ index + 1 }}</div>
+          <!-- 축하 이펙트 -->
+          <div v-if="celebratingCards[index]" class="celebration-effects">
+            <div class="spark spark-1">✨</div>
+            <div class="spark spark-2">💫</div>
+            <div class="spark spark-3">⭐</div>
+            <div class="spark spark-4">✨</div>
+          </div>
           <div class="flashcard-wrap" @click="toggleCard(index)">
             <div :class="['flashcard-inner', { 'flipped': flippedCards[index] }]">
               <!-- 앞면: 단어와 발음 -->
@@ -100,6 +111,8 @@ const error = ref<string | null>(null)
 const showAllCards = ref(false)
 const flippedCards = ref<boolean[]>([])
 const cardRefs = ref<HTMLElement[]>([])
+const flyingCards = ref<boolean[]>([])
+const celebratingCards = ref<boolean[]>([])
 
 const next = async () => {
   try {
@@ -113,6 +126,7 @@ const next = async () => {
 
 const memorize = async () => {
   try {
+    // 단일 카드 모드에서는 즉시 처리 (기본 FlashCard 컴포넌트에서 애니메이션 처리)
     await store.memorizeCurrent()
     error.value = null
   } catch (err) {
@@ -155,6 +169,8 @@ const speakWord = async (word: string) => {
 // 카드 큐가 변경될 때 flipped 상태 초기화
 const initializeFlippedCards = () => {
   flippedCards.value = new Array(store.queue.length).fill(false)
+  flyingCards.value = new Array(store.queue.length).fill(false)
+  celebratingCards.value = new Array(store.queue.length).fill(false)
 }
 
 // 전체보기에서 특정 카드의 다음 버튼 클릭
@@ -176,12 +192,31 @@ const memorizeFromCard = async (cardIndex: number) => {
   if (cardIndex !== store.index) return
   
   try {
-    await store.memorizeCurrent()
-    scrollToCurrentCard()
-    error.value = null
+    // 축하 효과 시작
+    celebratingCards.value[cardIndex] = true
+    
+    // 잠시 후 날아가는 애니메이션 시작
+    setTimeout(() => {
+      flyingCards.value[cardIndex] = true
+      celebratingCards.value[cardIndex] = false
+    }, 200)
+    
+    // 애니메이션이 진행되는 동안 잠시 대기
+    setTimeout(async () => {
+      await store.memorizeCurrent()
+      
+      // 애니메이션 상태 리셋
+      flyingCards.value[cardIndex] = false
+      
+      scrollToCurrentCard()
+      error.value = null
+    }, 800) // 총 애니메이션 시간과 맞춤
+    
   } catch (err) {
     console.error('Memorize 실행 오류:', err)
     error.value = '암기 처리 중 오류가 발생했습니다.'
+    flyingCards.value[cardIndex] = false
+    celebratingCards.value[cardIndex] = false
   }
 }
 
@@ -249,6 +284,15 @@ onErrorCaptured((err) => {
 
 .flashcard-item.current {
   transform: scale(1.05);
+}
+
+.flashcard-item.celebrating {
+  animation: celebrate 0.2s ease-out forwards;
+}
+
+.flashcard-item.flying {
+  animation: flyAway 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  z-index: 1000;
 }
 
 /* 플래시카드 스타일 */
@@ -366,6 +410,52 @@ onErrorCaptured((err) => {
   50% { transform: translateX(-50%) scale(1.1); }
 }
 
+@keyframes celebrate {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes sparkle {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(180deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5) rotate(360deg);
+  }
+}
+
+@keyframes flyAway {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: translateX(20px) translateY(-10px) rotate(3deg) scale(1.1);
+    opacity: 0.9;
+  }
+  60% {
+    transform: translateX(100px) translateY(-30px) rotate(8deg) scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(300px) translateY(-100px) rotate(15deg) scale(0.3);
+    opacity: 0;
+  }
+}
+
 .card-content {
   font-size: 16px;
   line-height: 1.6;
@@ -434,6 +524,46 @@ onErrorCaptured((err) => {
   border-radius: 20px;
   font-size: 13px;
   font-weight: 600;
+}
+
+/* 축하 이펙트 */
+.celebration-effects {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1001;
+}
+
+.spark {
+  position: absolute;
+  font-size: 24px;
+  animation: sparkle 0.6s ease-out forwards;
+}
+
+.spark-1 {
+  top: -30px;
+  left: -30px;
+  animation-delay: 0s;
+}
+
+.spark-2 {
+  top: -30px;
+  right: -30px;
+  animation-delay: 0.1s;
+}
+
+.spark-3 {
+  bottom: -30px;
+  left: -30px;
+  animation-delay: 0.2s;
+}
+
+.spark-4 {
+  bottom: -30px;
+  right: -30px;
+  animation-delay: 0.15s;
 }
 
 /* 반응형 디자인 */
