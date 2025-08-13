@@ -82,7 +82,18 @@
             <article class="card">
               <header class="head">
                 <span class="hw">{{ w.headword }}</span>
-                <div class="meta">
+                <div class="meta" style="display: flex; align-items: center; gap: 8px;">
+                  <label class="memorized-switch">
+                    <input 
+                      type="checkbox" 
+                      :checked="w.status === 'MEMORIZED'"
+                      @change="toggleMemorized(w.id)"
+                      style="display: none;"
+                    >
+                    <span class="switch-slider" :class="{ 'memorized': w.status === 'MEMORIZED' }">
+                      {{ w.status === 'MEMORIZED' ? '외워짐 ✓' : '미학습' }}
+                    </span>
+                  </label>
                   <button class="btn btn-sm" @click="del(w.id)" style="background:#ef4444; color:white; font-size:12px; padding:4px 8px;">삭제</button>
                 </div>
               </header>
@@ -328,4 +339,51 @@ const startStudy = async () => {
     alert('학습을 시작하는 중 오류가 발생했습니다: ' + error.message)
   }
 }
+
+// 외움 여부 토글
+const toggleMemorized = async (wordId: number) => {
+  try {
+    await store.toggleWordMemorized(wordId)
+  } catch (error) {
+    console.error('외움 상태 토글 실패:', error)
+    alert('외움 상태 변경 중 오류가 발생했습니다: ' + error.message)
+  }
+}
 </script>
+
+<style scoped>
+.memorized-switch {
+  cursor: pointer;
+  user-select: none;
+}
+
+.switch-slider {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 2px solid #e5e7eb;
+  background: #f9fafb;
+  color: #6b7280;
+  min-width: 60px;
+  text-align: center;
+}
+
+.switch-slider.memorized {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-color: #059669;
+  color: white;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.switch-slider:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.switch-slider.memorized:hover {
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+}
+</style>

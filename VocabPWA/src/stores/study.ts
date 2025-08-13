@@ -94,10 +94,17 @@ export const useStudyStore = defineStore('study', {
       
       console.log(`refreshWords 쿼리: SELECT * FROM words ${where}`)
       
-      const res = db.exec(`SELECT id, notebook_id, chapter_id, headword, phonetic, html_content, tags FROM words ${where} ORDER BY id ASC`)
+      const res = db.exec(`
+        SELECT w.id, w.notebook_id, w.chapter_id, w.headword, w.phonetic, w.html_content, w.tags,
+               COALESCE(ws.status, 'NEW') as status
+        FROM words w 
+        LEFT JOIN word_status ws ON w.id = ws.word_id
+        ${where} 
+        ORDER BY w.id ASC
+      `)
       this.words = res[0]?.values.map(r => ({
         id: r[0], notebook_id: r[1], chapter_id: r[2],
-        headword: r[3], phonetic: r[4], html_content: r[5], tags: r[6]
+        headword: r[3], phonetic: r[4], html_content: r[5], tags: r[6], status: r[7]
       })) || []
       
       console.log(`refreshWords 결과: ${this.words.length}개 단어`)
@@ -232,6 +239,33 @@ export const useStudyStore = defineStore('study', {
       const { db, persist } = await getDB()
       db.run(`DELETE FROM words WHERE id=?`, [id])
       await persist(); await this.refreshWords()
+    },
+
+    // 단어 외움 상태 토글
+    async toggleWordMemorized(wordId: number) {
+      const { db, persist } = await getDB()
+      
+      try {
+        // 현재 상태 확인
+        const currentStatus = db.exec(`SELECT status FROM word_status WHERE word_id=?`, [wordId])[0]?.values?.[0]?.[0]
+        
+        if (currentStatus === 'MEMORIZED') {
+          // 외워진 상태 → NEW로 변경
+          db.run(`UPDATE word_status SET status='NEW', last_reviewed_at=NULL, next_due_at=NULL WHERE word_id=?`, [wordId])
+        } else {
+          // NEW 또는 없는 상태 → MEMORIZED로 변경
+          const now = new Date().toISOString()
+          db.run(`INSERT OR REPLACE INTO word_status(word_id, status, last_reviewed_at, next_due_at) VALUES (?, 'MEMORIZED', ?, ?)`, 
+            [wordId, now, now])
+        }
+        
+        await persist()
+        await this.refreshWords() // 상태 반영을 위해 다시 로드
+        
+      } catch (error) {
+        console.error('외움 상태 토글 실패:', error)
+        throw error
+      }
     },
 
     // 단어장(노트북) 삭제 - 연관된 챕터와 단어도 함께 삭제
