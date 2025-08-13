@@ -2,9 +2,20 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:github.com)",
-      "Bash(uv:*)"
+      "Bash(uv:*)",
+      "Bash(npm run dev:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(python test_pdf2json.py:*)",
+      "Bash(rm:*)"
     ],
     "deny": []
   },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "sequential-thinking",
+    "context7",
+    "supabase"
+  ],
   "editor.submitOnEnter": "ctrl+enter"
 }

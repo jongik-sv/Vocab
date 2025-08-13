@@ -1,21 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-사랑영단어 수능 2000 → 클래스 기반 HTML + 공통 CSS 생성기
-- 입력: ./사랑영단어 수능 2000.txt
-- 출력: ./vocab_shared.css, ./사랑영단어_수능_2000_class_based.json
-- chapter_id = (id - 1) // 40 + 1
+사랑영단어 수능 2000 → 클래스 기반 HTML + 공통 CSS 생성기 (예문/번역 분리: 기존 로직 준용)
+- 입력: /mnt/data/사랑영단어 수능 2000.txt
+- 출력: /mnt/data/vocab_shared.css, /mnt/data/사랑영단어_수능_2000_class_based.json
+- chapter_id = ((id + 39) // 40)
 """
-import json
-import re
-import html
-import math
+import json, re, html
 from pathlib import Path
 
-SRC_TXT = Path("./사랑영단어 수능 2000.txt")
-OUT_CSS = Path("./vocab_shared.css")
-OUT_JSON = Path("./사랑영단어_수능_2000_class_based.json")
+SRC_TXT = Path("/mnt/data/사랑영단어 수능 2000.txt")
+OUT_CSS = Path("/mnt/data/vocab_shared.css")
+OUT_JSON = Path("/mnt/data/사랑영단어_수능_2000_class_based.json")
 
-# 공통 CSS (라이트/다크모드 지원)
 CSS = """
 /* ----- Vocabulary Card Styles (Shared) ----- */
 :root{
@@ -53,20 +49,29 @@ CSS = """
 ID_RE    = re.compile(r"^\d{4}$")
 PHON_RE  = re.compile(r"^\[.*?\]$")
 YEAR_END = re.compile(r"(?:\d{2}(?:모고|수능))\s*$")
+ENG_START = re.compile(r"^[A-Za-z]")
 
-def regroup_example_lines(lines):
-    """줄바꿈으로 끊긴 영문 예문을 연도 태그가 나올 때까지 병합."""
+def split_blocks(raw: str):
+    return [b.strip() for b in re.split(r"^\s*---\s*$", raw, flags=re.M) if b.strip()]
+
+def first_english_index(lines):
+    for i, ln in enumerate(lines):
+        if ENG_START.match(ln.strip()):
+            return i
+    return None
+
+def regroup_until_year(lines):
+    """기존 로직: 연도 태그로 문장 경계를 판단하여 병합."""
     out, buf = [], ""
     for ln in lines:
-        ln = ln.rstrip()
-        if not ln:
+        s = ln.rstrip()
+        if not s:
             continue
         if buf:
-            # 자연스러운 공백 처리
-            sep = "" if buf.endswith(("—","-","/","(")) or ln.startswith((")",",",".",";","?","!")) else " "
-            buf += sep + ln
+            sep = "" if buf.endswith(("—","-","/","(")) or s.startswith((")",",",".",";","?","!","'","\"")) else " "
+            buf += sep + s
         else:
-            buf = ln
+            buf = s
         if YEAR_END.search(buf):
             out.append(buf)
             buf = ""
@@ -74,21 +79,10 @@ def regroup_example_lines(lines):
         out.append(buf)
     return out
 
-def extract_defs(lines):
-    """품사/의미 라인 추출."""
-    defs, i = [], 0
-    for i, ln in enumerate(lines):
-        s = ln.strip()
-        if s.startswith(("ⓥ","ⓝ","ⓐ","ⓟ")) or s.startswith("ad"):
-            defs.append(s)
-        else:
-            break
-    return defs, lines[i:]
-
-def split_examples(lines):
-    """예문 EN/KO를 페어링. 다음 문장이 연도 태그 없으면 KO로 간주."""
-    grouped = regroup_example_lines(lines)
-    pairs, i = [], 0
+def split_examples_from_grouped(grouped):
+    """기존 방식: 다음 문장이 연도 태그가 없으면 번역으로 간주."""
+    pairs = []
+    i = 0
     while i < len(grouped):
         en = grouped[i]; i += 1
         ko = None
@@ -97,22 +91,12 @@ def split_examples(lines):
         pairs.append((en, ko))
     return pairs
 
-def pos_badge_and_meaning(text):
-    if text.startswith("ⓥ"): return "verb", text[2:].strip()
-    if text.startswith("ⓝ"): return "noun", text[2:].strip()
-    if text.startswith("ⓐ"): return "adj",  text[2:].strip()
-    if text.startswith("ⓟ"): return "prep", text[2:].strip()
-    if text.startswith("ad"): return "adv",  text.replace("ad","ad.").strip()
-    return "def", text.strip()
-
-def build_html(word_id, headword, phonetic, defs, examples):
+def build_html(word_id, headword, phonetic, meanings, examples):
+    # 의미 영역: POS 없이 의미 줄만 표시
     defs_html = []
-    for d in defs:
-        badge, meaning = pos_badge_and_meaning(d)
-        defs_html.append(
-            f"<div class='pos'>{html.escape(badge)}</div>"
-            f"<span class='mean'>{html.escape(meaning)}</span><br/>"
-        )
+    for m in meanings:
+        defs_html.append(f"<span class='mean'>{html.escape(m.strip())}</span><br/>")
+    # 예문 영역
     ex_html = []
     for en, ko in examples:
         en = en.strip()
@@ -126,11 +110,12 @@ def build_html(word_id, headword, phonetic, defs, examples):
             block += f"<div class='ko'>{html.escape(ko.strip())}</div>"
         block += "</div>"
         ex_html.append(block)
+    phon = f"<div class='phon'>{html.escape(phonetic)}</div>" if phonetic else ""
     return (
         "<section class='voc'>"
         "  <article class='card'>"
         f"    <header class='head'><div class='hw'>{html.escape(headword)}</div>"
-        f"      <div class='phon'>{html.escape(phonetic)}</div>"
+        f"      {phon}"
         f"      <div class='meta'>#{str(word_id).zfill(4)}</div></header>"
         f"    <div class='defs'>{''.join(defs_html)}</div>"
         f"    <div class='examples'>{''.join(ex_html)}</div>"
@@ -138,48 +123,61 @@ def build_html(word_id, headword, phonetic, defs, examples):
         "</section>"
     )
 
-def main():
-    if not SRC_TXT.exists():
-        raise FileNotFoundError(f"입력 파일이 없습니다: {SRC_TXT}")
+raw = SRC_TXT.read_text(encoding="utf-8").strip()
+blocks = split_blocks(raw)
 
-    raw = SRC_TXT.read_text(encoding="utf-8").strip()
-    blocks = [b.strip() for b in raw.split("---") if b.strip()]
+items = []
+for b in blocks:
+    lines = [ln for ln in b.splitlines() if ln.strip()]
+    if len(lines) < 2:
+        continue
 
-    items = []
-    for b in blocks:
-        lines = [ln for ln in b.splitlines() if ln.strip()]
-        if len(lines) < 4: 
-            continue
-        if not ID_RE.match(lines[0]) or not PHON_RE.match(lines[1]):
-            continue
+    # ID
+    if not ID_RE.match(lines[0].strip()):
+        continue
+    word_id = int(lines[0].strip())
 
-        word_id  = int(lines[0])                       # 파일의 4자리 id 사용
-        phonetic = lines[1].strip()
-        headword = lines[2].strip()
-        rest     = lines[3:]
+    # phonetic (optional)
+    idx = 1
+    phonetic = ""
+    if idx < len(lines) and PHON_RE.match(lines[idx].strip()):
+        phonetic = lines[idx].strip()
+        idx += 1
 
-        defs, remainder = extract_defs(rest)
-        examples = split_examples(remainder) if remainder else []
+    # headword
+    if idx >= len(lines):
+        continue
+    headword = lines[idx].strip()
+    idx += 1
 
-        html_content = build_html(word_id, headword, phonetic, defs, examples)
+    remainder = [ln for ln in lines[idx:] if ln.strip()]
 
-        # chapter_id 40개씩 챕터 묶음
-        chapter_id =  ((word_id +39) // 40)
-        items.append({
-            "id": word_id,
-            "notebook_id": "사랑영단어 수능 2000",
-            "chapter_id": chapter_id,
-            "headword": headword,
-            "phonetic": phonetic,
-            "html_content": html_content
-        })
+    # 의미: 첫 영어 라인 이전까지
+    en_start = first_english_index(remainder)
+    if en_start is None:
+        meanings = [s.strip() for s in remainder]
+        grouped = []
+    else:
+        meanings = [s.strip() for s in remainder[:en_start] if s.strip()]
+        grouped = regroup_until_year(remainder[en_start:])
 
-    # 출력 쓰기
-    OUT_CSS.write_text(CSS, encoding="utf-8")
-    OUT_JSON.write_text(json.dumps(items, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"CSS  → {OUT_CSS.resolve()}")
-    print(f"JSON → {OUT_JSON.resolve()}")
-    print(f"총 {len(items)}개 항목 생성 완료.")
+    examples = split_examples_from_grouped(grouped) if grouped else []
 
-if __name__ == "__main__":
-    main()
+    html_content = build_html(word_id, headword, phonetic, meanings, examples)
+    chapter_id = (word_id + 39) // 40
+
+    items.append({
+        "id": word_id,
+        "notebook_id": "사랑영단어 수능 2000",
+        "chapter_id": chapter_id,
+        "headword": headword,
+        "phonetic": phonetic,
+        "html_content": html_content
+    })
+
+# 저장
+OUT_CSS.write_text(CSS, encoding="utf-8")
+OUT_JSON.write_text(json.dumps(items, ensure_ascii=False, indent=2), encoding="utf-8")
+print(f"CSS  → {OUT_CSS}")
+print(f"JSON → {OUT_JSON}")
+print(f"총 {len(items)}개 항목 생성 완료.")

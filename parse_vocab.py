@@ -1,60 +1,107 @@
 import re
+import json
 
-def is_korean(text):
-    if not text or not text.strip():
-        return False
-    return bool(re.search(r'[\uac00-\ud7a3]', text))
-
-def is_special_line(line):
-    line = line.strip()
-    return (
-        not line or
-        re.match(r'^\\d{4}$', line) or
-        line.startswith('[') or
-        line.startswith('ⓥ') or
-        line.startswith('ⓝ') or
-        line.startswith('ⓐ') or
-        line.startswith('--')
-    )
-
-def process_file(input_path, output_path):
-    with open(input_path, 'r', encoding='utf-8') as f:
-        lines = [line.strip() for line in f.readlines()]
-
-    with open(output_path, 'w', encoding='utf-8') as f_out:
+def parse_vocabulary_file(file_path):
+    # Parse the vocabulary text file and convert it to JSON format
+    
+    with open(file_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    # Split by --- separator
+    entries = re.split('---\\s*\n', content.strip())
+    
+    vocab_list = []
+    
+    for entry in entries:
+        if not entry.strip():
+            continue
+            
+        lines = entry.strip().split('\n')
+        
+        # Skip empty entries
+        if len(lines) < 2:
+            continue
+            
+        # Extract ID (first line)
+        id_line = lines[0].strip()
+        if not id_line.isdigit():
+            continue
+            
+        id = int(id_line)
+        
+        # Extract phonetic (second line in brackets)
+        phonetic = ""
+        headword_index = 1
+        if len(lines) > 1 and lines[1].startswith('[') and ']' in lines[1]:
+            phonetic = lines[1][1:lines[1].find(']')]
+            headword_index = 2
+        
+        # Extract headword
+        if len(lines) <= headword_index:
+            continue
+        headword = lines[headword_index].strip()
+        
+        # Extract content lines (after headword)
+        content_lines = lines[headword_index + 1:]
+        
+        # Process content lines into HTML format
+        html_content = ""
         i = 0
-        while i < len(lines):
-            line = lines[i]
-
-            if is_special_line(line) or is_korean(line):
-                f_out.write(line + '\n')
+        while i < len(content_lines):
+            line = content_lines[i].strip()
+            if not line:
                 i += 1
                 continue
-
-            # At this point, the line is English.
-            # Differentiate between the word and an example sentence.
-            if ' ' not in line:  # This is the word itself.
-                f_out.write(line + '\n')
-                i += 1
-                continue
-            else:  # This is an example sentence.
-                english_sentence = line
                 
-                # Look ahead for continuations.
-                next_i = i + 1
-                while next_i < len(lines):
-                    next_line = lines[next_i]
-                    # Stop merging if the next line is Korean or a special line.
-                    if is_korean(next_line) or is_special_line(next_line):
-                        break
-                    
-                    # It's a continuation line.
-                    english_sentence += ' ' + next_line.strip()
-                    next_i += 1
+            # Check if line is an example sentence (contains year info)
+            if re.search('\\d{2}(모고|수능)', line):
+                # This is an English example sentence
+                english_line = line
                 
-                f_out.write(english_sentence + '\n')
-                i = next_i  # Jump the main loop counter past the merged lines.
+                # Check if next line is Korean translation
+                korean_translation = ""
+                if i + 1 < len(content_lines):
+                    next_line = content_lines[i + 1].strip()
+                    if next_line and not re.search('\\d{2}(모고|수능)', next_line):
+                        korean_translation = next_line
+                        i += 1  # Skip the next line as it's a translation
+                
+                # Format with HTML
+                html_content += '<p>' + english_line + '</p>\n'
+                if korean_translation:
+                    html_content += '<p>' + korean_translation + '</p>\n'
+            else:
+                # This is a meaning or regular text
+                html_content += '<p>' + line + '</p>\n'
+            
+            i += 1
+        
+        # Calculate chapter_id using the formula from requirements
+        chapter_id = (id + 39) // 40
+        
+        # Create vocab entry
+        vocab_entry = {
+            "id": id,
+            "notebook_id": "사랑영단어 수능 2000",
+            "chapter_id": chapter_id,
+            "headword": headword,
+            "phonetic": phonetic,
+            "html_content": html_content.strip()
+        }
+        
+        vocab_list.append(vocab_entry)
+    
+    return vocab_list
 
-if __name__ == "__main__":
-    process_file('사랑영단어 수능 2000.txt', '사랑영단어_수정.txt')
-    print("파일 처리 완료: 사랑영단어_수정.txt")
+def save_to_json(vocab_list, output_file):
+    # Save vocabulary list to JSON file
+    with open(output_file, 'w', encoding='utf-8') as f:
+        json.dump(vocab_list, f, ensure_ascii=False, indent=2)
+
+# Parse the vocabulary file
+vocab_list = parse_vocabulary_file("사랑영단어 수능 2000.txt")
+
+# Save to JSON
+save_to_json(vocab_list, "사랑영단어_수능_2000_parsed.json")
+
+print("Parsed " + str(len(vocab_list)) + " vocabulary entries and saved to 사랑영단어_수능_2000_parsed.json")
