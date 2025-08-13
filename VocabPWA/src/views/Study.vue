@@ -67,14 +67,12 @@
             </div>
           </div>
           <div class="card-actions">
-            <button class="btn btn-sm" @click="nextFromCard(index)" :disabled="index < store.index">
+            <button class="btn btn-sm" @click="nextFromCard(index)">
               다음 →
             </button>
-            <button class="btn btnPrimary btn-sm" @click="memorizeFromCard(index)" :disabled="index < store.index">
+            <button class="btn btnPrimary btn-sm" @click="memorizeFromCard(index)">
               외웠어요 ✓
             </button>
-            <span v-if="index === store.index" class="current-indicator">현재 학습 중</span>
-            <span v-else-if="index < store.index" class="completed-indicator">완료</span>
           </div>
         </div>
       </div>
@@ -175,9 +173,9 @@ const initializeFlippedCards = () => {
 
 // 전체보기에서 특정 카드의 다음 버튼 클릭
 const nextFromCard = async (cardIndex: number) => {
-  if (cardIndex !== store.index) return
-  
   try {
+    // 현재 인덱스를 해당 카드로 설정하고 다음으로 이동
+    store.index = cardIndex
     await store.next()
     scrollToCurrentCard()
     error.value = null
@@ -189,9 +187,10 @@ const nextFromCard = async (cardIndex: number) => {
 
 // 전체보기에서 특정 카드의 외웠어요 버튼 클릭
 const memorizeFromCard = async (cardIndex: number) => {
-  if (cardIndex !== store.index) return
-  
   try {
+    // 현재 인덱스를 해당 카드로 설정
+    store.index = cardIndex
+    
     // 축하 효과 시작
     celebratingCards.value[cardIndex] = true
     
@@ -280,7 +279,8 @@ onErrorCaptured((err) => {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  min-height: 480px; /* 카드 높이 + 버튼 높이 + 여백 */
+  height: 500px; /* 고정 높이 */
+  justify-content: space-between; /* 내용을 위아래로 정렬 */
 }
 
 .flashcard-item.current {
@@ -303,7 +303,7 @@ onErrorCaptured((err) => {
   user-select: none;
   width: 100%;
   max-width: 700px;
-  margin-bottom: 16px;
+  height: 400px; /* 고정 높이 */
 }
 
 .flashcard-inner {
@@ -567,25 +567,11 @@ onErrorCaptured((err) => {
   justify-content: center;
   align-items: center;
   gap: 12px;
+  height: 60px; /* 고정 높이 */
+  flex-shrink: 0; /* 크기 변경 방지 */
 }
 
-.current-indicator {
-  background: var(--color-brand);
-  color: white;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.completed-indicator {
-  background: #10b981;
-  color: white;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
-}
+/* 사용하지 않는 indicator 스타일 제거됨 */
 
 /* 축하 이펙트 */
 .celebration-effects {
