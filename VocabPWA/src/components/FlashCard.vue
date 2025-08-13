@@ -51,7 +51,7 @@ onMounted(async () => {
 <style scoped>
 .flashcard-container {
   width: 100%;
-  max-width: 500px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
@@ -66,7 +66,7 @@ onMounted(async () => {
   transform-style: preserve-3d; 
   transition: transform .5s cubic-bezier(.2,.8,.2,1);
   width: 100%;
-  height: 260px;
+  height: 400px;
 }
 
 .inner.flipped { 

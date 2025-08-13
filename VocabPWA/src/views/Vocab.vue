@@ -45,12 +45,12 @@
           JSON 업로드
           <input type="file" accept=".json,application/json" hidden @change="onJson"/>
         </label>
-        <label class="btn btnPrimary">
+        <!-- <label class="btn btnPrimary">
           PDF → JSON → 삽입
           <input type="file" accept="application/pdf" hidden @change="onPdf"/>
         </label>
 
-        <button class="btn" @click="addSample">샘플 추가</button>
+        <button class="btn" @click="addSample">샘플 추가</button> -->
         <button class="btn" @click="backup">백업(JSON)</button>
         <label class="btn" style="background:#8b5cf6; color:white">
           DB 파일 내보내기
@@ -60,9 +60,20 @@
           DB 파일 가져오기
           <input type="file" accept=".db,application/x-sqlite3" hidden @change="importDB"/>
         </label>
-        <button class="btn" @click="debugDB" style="background:#ff6b6b; color:white">DB 상태 확인</button>
+        <!-- <button class="btn" @click="debugDB" style="background:#ff6b6b; color:white">DB 상태 확인</button>
         <button class="btn" @click="testChapterFilter" style="background:#22c55e; color:white">챕터 필터 테스트</button>
-        <button class="btn" @click="showFirst10" style="background:#3b82f6; color:white">첫 10개 레코드</button>
+        <button class="btn" @click="showFirst10" style="background:#3b82f6; color:white">첫 10개 레코드</button> -->
+      </div>
+
+      <!-- 학습하기 섹션 -->
+      <div v-if="words.length > 0" class="card" style="padding:16px; margin-bottom:20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center;">
+        <div style="margin-bottom:12px;">
+          <h3 style="margin:0; color:white;">{{ getStudyInfo() }}</h3>
+          <p style="margin:8px 0 0 0; opacity:0.9; font-size:14px;">선택된 범위의 단어들을 학습할 수 있습니다</p>
+        </div>
+        <button class="btn" @click="startStudy" style="background:rgba(255,255,255,0.2); border-color:rgba(255,255,255,0.3); color:white; padding:12px 24px; font-weight:600;">
+          📚 학습하기 ({{ words.length }}개 단어)
+        </button>
       </div>
 
       <div class="vocab-list">
@@ -91,8 +102,10 @@
 
 <script setup lang="ts">
 import { onMounted, computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useStudyStore } from '../stores/study'
 const store = useStudyStore()
+const router = useRouter()
 const words = computed(() => store.words)
 const nbName = ref(''); const chName = ref('')
 const chaptersFiltered = computed(() => {
@@ -277,6 +290,42 @@ const deleteChapter = async () => {
       console.error('챕터 삭제 실패:', error)
       alert('챕터 삭제 중 오류가 발생했습니다: ' + error.message)
     }
+  }
+}
+
+// 학습 정보 표시용 메소드
+const getStudyInfo = () => {
+  const notebookName = store.activeNotebook === 'all' ? '모든 단어장' : 
+    store.notebooks.find(n => n.id === Number(store.activeNotebook))?.name || '단어장'
+  const chapterName = store.activeChapter === 'all' ? '모든 챕터' : 
+    chaptersFiltered.value.find(c => c.id === Number(store.activeChapter))?.name || '챕터'
+  
+  return `${notebookName} > ${chapterName}`
+}
+
+// 학습 시작 메소드
+const startStudy = async () => {
+  try {
+    console.log('학습 시작:', {
+      activeNotebook: store.activeNotebook,
+      activeChapter: store.activeChapter,
+      wordsCount: words.value.length
+    })
+    
+    if (words.value.length === 0) {
+      alert('학습할 단어가 없습니다.')
+      return
+    }
+
+    // 현재 필터에 맞는 학습 큐 로드
+    await store.loadQueue()
+    
+    // 학습 페이지로 이동
+    await router.push('/study')
+    
+  } catch (error) {
+    console.error('학습 시작 실패:', error)
+    alert('학습을 시작하는 중 오류가 발생했습니다: ' + error.message)
   }
 }
 </script>

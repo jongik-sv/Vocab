@@ -3,8 +3,8 @@
     <h1 class="title">Vocab PWA</h1>
     <nav class="nav">
       <router-link to="/">대시보드</router-link>
-      <router-link to="/study">학습</router-link>
       <router-link to="/vocab">단어장</router-link>
+      <router-link to="/study">학습</router-link>
       <router-link to="/stats">통계</router-link>
       <router-link to="/settings">설정</router-link>
     </nav>
