@@ -1,0 +1,130 @@
+<section class='voc'>
+    <article class='card'>
+        <header class='head'>
+            <div class='hw'>whatever</div>
+            <div class='phon'>[hwɑtévəːr]</div>
+            <div class='meta'>#1997</div>
+        </header>
+        <div class='defs'></div>
+        <div class='examples'>
+            <div class='ex'>
+                <div class='en'>pn ~하는 것은 무엇이든 Usually the prince shared whatever he had with others.<span
+                        class='year-tag'>21모고</span></div>
+                <div class='ko'>평소에 그 왕자는 자신이 가지고 있는 어떤 것이든 다른 사람들과 나눴다.</div>
+            </div>
+            <div class='ex'>
+                <div class='en'>He would offer them whatever he was given and they would eat it together.<span
+                        class='year-tag'>21모고</span></div>
+                <div class='ko'>그는 그들에게 자신이 받은 것은 무엇이든지 권하고 그들은 그것을 함께 먹곤 했다.</div>
+            </div>
+        </div>
+    </article>
+</section>
+
+
+<section class='voc'>
+    <article class='card'>
+        <header class='head'>
+            <div class='hw'>rarely</div>
+            <div class='phon'>[rɛəːrli]</div>
+            <div class='meta'>#1996</div>
+        </header>
+        <div class='defs'></div>
+        <div class='examples'>
+            <div class='ex'>
+                <div class='en'>ad 좀처럼 ~하지 않는, 거의 ~않는 The plants rarely have flowers and never set seed, so replanting
+                    portions of the corm is the only way to grow this plant.<span class='year-tag'>06모고</span></div>
+                <div class='ko'>이 작물은 거의 꽃이 피지 않고 전혀 씨를 맺지 않아서, 알뿌리의 일부분을 옮겨 심는 것이 이작물의 유일한 재배 방법이다.</div>
+            </div>
+            <div class='ex'>
+                <div class='en'>Cultures have rarely been completely isolated from outside influence, because throughout
+                    human history people have been moving from one place to another, spreading goods and ideas.<span
+                        class='year-tag'>15모고</span></div>
+                <div class='ko'>문화는 좀처럼 외부의 영향으로부터 완전히 고립되어 오지 않았는데, 그 이유는 인류 역사에걸쳐 사람들은 한 장소에서 다른 장소로 재화와 사상을 전파하며 이동하고
+                    있는 중이기 때문이다.</div>
+            </div>
+        </div>
+    </article>
+</section>
+
+
+
+<section class='voc'>
+    <article class='card'>
+        <header class='head'>
+            <div class='hw'>overeat</div>
+            <div class='phon'>[òuvəríːt]</div>
+            <div class='meta'>#1994</div>
+        </header>
+        <div class='defs'><span class='mean'>ⓥ 과식하다</span><br /></div>
+        <div class='examples'>
+            <div class='ex'>
+                <div class='en'>A cat or a dog will overeat but not a pig.<span class='year-tag'>06모고</span></div>
+                <div class='ko'>고양이나 개는 과식을 하지만 돼지는 그렇지 않다.</div>
+            </div>
+        </div>
+    </article>
+</section>
+
+
+
+/sc:improve @pdf2json2.py 파일에서 MEAN_TOK으로 분명히 ad, pn을 찾아서 뜻 항목에 넣으라고 했는데 계속 영어 예문 항목이랑 합쳐져서 예문항목으로 들어가. 
+
+
+입력
+1997
+[hwɑtévəːr]
+whatever 
+pn ~하는 것은 무엇이든
+Usually the prince shared whatever he had with others. 21모고
+평소에 그 왕자는 자신이 가지고 있는 어떤 것이든 다른 사람들과 나눴다.
+He would offer them whatever he was given and they would eat it together. 21모고
+그는 그들에게 자신이 받은 것은 무엇이든지 권하고 그들은 그것을 함께 먹곤 했다.
+
+출력현재(비정상)
+<section class='voc'>
+    <article class='card'>
+        <header class='head'>
+            <div class='hw'>whatever</div>
+            <div class='phon'>[hwɑtévəːr]</div>
+            <div class='meta'>#1997</div>
+        </header>
+        <div class='defs'></div>
+        <div class='examples'>
+            <div class='ex'>
+                <div class='en'>pn ~하는 것은 무엇이든 Usually the prince shared whatever he had with others.<span
+                        class='year-tag'>21모고</span></div>
+                <div class='ko'>평소에 그 왕자는 자신이 가지고 있는 어떤 것이든 다른 사람들과 나눴다.</div>
+            </div>
+            <div class='ex'>
+                <div class='en'>He would offer them whatever he was given and they would eat it together.<span
+                        class='year-tag'>21모고</span></div>
+                <div class='ko'>그는 그들에게 자신이 받은 것은 무엇이든지 권하고 그들은 그것을 함께 먹곤 했다.</div>
+            </div>
+        </div>
+    </article>
+</section>
+
+출력수정요청(정상)
+<section class='voc'>
+    <article class='card'>
+        <header class='head'>
+            <div class='hw'>whatever</div>
+            <div class='phon'>[hwɑtévəːr]</div>
+            <div class='meta'>#1997</div>
+        </header>
+        <div class='defs'><span class='mean'>pn ~하는 것은 무엇이든 <br /></span></div>
+        <div class='examples'>
+            <div class='ex'>
+                <div class='en'>Usually the prince shared whatever he had with others.<span
+                        class='year-tag'>21모고</span></div>
+                <div class='ko'>평소에 그 왕자는 자신이 가지고 있는 어떤 것이든 다른 사람들과 나눴다.</div>
+            </div>
+            <div class='ex'>
+                <div class='en'>He would offer them whatever he was given and they would eat it together.<span
+                        class='year-tag'>21모고</span></div>
+                <div class='ko'>그는 그들에게 자신이 받은 것은 무엇이든지 권하고 그들은 그것을 함께 먹곤 했다.</div>
+            </div>
+        </div>
+    </article>
+</section>
