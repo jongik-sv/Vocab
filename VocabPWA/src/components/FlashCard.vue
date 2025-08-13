@@ -102,7 +102,8 @@ onMounted(async () => {
 
 .back { 
   transform: rotateY(180deg) translateZ(0); 
-  background: linear-gradient(180deg, var(--color-surface), color-mix(in oklab, var(--color-surface) 95%, var(--color-brand) 3%));
+  /* 단어장과 동일한 배경색 */
+  background: var(--color-surface, #ffffff);
 }
 
 .head { 
@@ -122,6 +123,12 @@ onMounted(async () => {
   width: 100%;
   text-align: left;
   max-height: 180px;
+  /* 단어장과 동일한 배경 */
+  background: var(--color-surface, #ffffff);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid var(--color-border, #e5e7eb);
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
 }
 
 .content :deep(b), 
@@ -170,9 +177,9 @@ onMounted(async () => {
 }
 
 .content :deep(.voc .defs) {
-  margin-top: 0;
+  margin-top: 8px;
   padding: 10px;
-  background: var(--color-surface-alt, #f9fafb);
+  background: var(--color-surface-subtle, #f9fafb);
   border-radius: 12px;
   margin-bottom: 16px;
 }
@@ -191,7 +198,7 @@ onMounted(async () => {
 }
 
 .content :deep(.voc .mean) {
-  color: var(--color-text-secondary, #374151);
+  color: #374151;
 }
 
 .content :deep(.voc .examples) {
@@ -209,11 +216,11 @@ onMounted(async () => {
 }
 
 .content :deep(.voc .en) {
-  color: var(--color-text);
+  color: #111827;
 }
 
 .content :deep(.voc .ko) {
-  color: var(--color-text-muted, #4b5563);
+  color: #4b5563;
   margin-top: 6px;
 }
 
