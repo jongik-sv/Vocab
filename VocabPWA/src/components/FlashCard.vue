@@ -96,9 +96,6 @@ onMounted(async () => {
 .back { 
   transform: rotateY(180deg); 
   background: linear-gradient(180deg, var(--color-surface), color-mix(in oklab, var(--color-surface) 95%, var(--color-brand) 3%));
-  justify-content: flex-start;
-  align-items: flex-start;
-  text-align: left;
 }
 
 .head { 
@@ -116,6 +113,8 @@ onMounted(async () => {
   color: var(--color-text);
   overflow-y: auto;
   width: 100%;
+  text-align: left;
+  max-height: 180px;
 }
 
 .content :deep(b), 

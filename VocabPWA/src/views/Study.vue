@@ -344,11 +344,6 @@ onErrorCaptured((err) => {
 .flashcard-back {
   transform: rotateY(180deg);
   background: linear-gradient(180deg, var(--color-surface), color-mix(in oklab, var(--color-surface) 95%, var(--color-brand) 3%));
-  justify-content: flex-start;
-  align-items: flex-start;
-  text-align: left;
-  padding: 16px;
-  overflow-y: auto;
 }
 
 .word-head {
@@ -468,8 +463,9 @@ onErrorCaptured((err) => {
   line-height: 1.6;
   width: 100%;
   color: var(--color-text);
-  max-height: none;
-  height: 100%;
+  text-align: left;
+  overflow-y: auto;
+  max-height: 300px;
 }
 
 /* 카드 내부 스타일 조정 - 단어장과 동일하게 */
