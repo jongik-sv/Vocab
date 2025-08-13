@@ -67,6 +67,8 @@ onMounted(async () => {
   transition: transform .5s cubic-bezier(.2,.8,.2,1);
   width: 100%;
   height: 400px;
+  /* 3D 컨텍스트 강제 생성 */
+  transform: translateZ(0);
 }
 
 .inner.flipped { 
@@ -77,6 +79,9 @@ onMounted(async () => {
   position: absolute;
   width: 100%;
   height: 100%;
+  top: 0;
+  left: 0;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden; 
   padding: 28px; 
   border-radius: var(--radii-lg); 
@@ -87,6 +92,8 @@ onMounted(async () => {
   justify-content: center;
   align-items: center;
   text-align: center;
+  /* GPU 가속 강제 */
+  transform: translateZ(0);
 }
 
 .front { 
@@ -94,7 +101,7 @@ onMounted(async () => {
 }
 
 .back { 
-  transform: rotateY(180deg); 
+  transform: rotateY(180deg) translateZ(0); 
   background: linear-gradient(180deg, var(--color-surface), color-mix(in oklab, var(--color-surface) 95%, var(--color-brand) 3%));
 }
 

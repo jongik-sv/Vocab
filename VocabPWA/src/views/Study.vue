@@ -313,6 +313,8 @@ onErrorCaptured((err) => {
   width: 100%;
   height: 400px;
   margin: 0 auto;
+  /* 3D 컨텍스트 강제 생성 */
+  transform: translateZ(0);
 }
 
 .flashcard-inner.flipped {
@@ -324,6 +326,9 @@ onErrorCaptured((err) => {
   position: absolute;
   width: 100%;
   height: 100%;
+  top: 0;
+  left: 0;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   border-radius: var(--radii-lg);
   border: 1px solid var(--color-border);
@@ -334,15 +339,16 @@ onErrorCaptured((err) => {
   align-items: center;
   text-align: center;
   padding: 28px;
+  /* GPU 가속 강제 */
+  transform: translateZ(0);
 }
 
 .flashcard-front {
   background: linear-gradient(180deg, var(--color-surface), color-mix(in oklab, var(--color-surface) 95%, var(--color-brand) 5%));
-  position: relative;
 }
 
 .flashcard-back {
-  transform: rotateY(180deg);
+  transform: rotateY(180deg) translateZ(0);
   background: linear-gradient(180deg, var(--color-surface), color-mix(in oklab, var(--color-surface) 95%, var(--color-brand) 3%));
 }
 
