@@ -280,6 +280,7 @@ onErrorCaptured((err) => {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  min-height: 480px; /* 카드 높이 + 버튼 높이 + 여백 */
 }
 
 .flashcard-item.current {
@@ -311,6 +312,7 @@ onErrorCaptured((err) => {
   transition: transform 0.5s cubic-bezier(.2,.8,.2,1);
   width: 100%;
   height: 400px;
+  margin: 0 auto;
 }
 
 .flashcard-inner.flipped {
@@ -342,6 +344,11 @@ onErrorCaptured((err) => {
 .flashcard-back {
   transform: rotateY(180deg);
   background: linear-gradient(180deg, var(--color-surface), color-mix(in oklab, var(--color-surface) 95%, var(--color-brand) 3%));
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  padding: 16px;
+  overflow-y: auto;
 }
 
 .word-head {
@@ -461,13 +468,27 @@ onErrorCaptured((err) => {
   line-height: 1.6;
   width: 100%;
   color: var(--color-text);
-  overflow-y: auto;
-  max-height: 180px;
+  max-height: none;
+  height: 100%;
 }
 
-/* 카드 내부 스타일 조정 */
+/* 카드 내부 스타일 조정 - 단어장과 동일하게 */
 .card-content :deep(.voc) {
-  font-size: 13px;
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,'Apple SD Gothic Neo','Noto Sans KR',Helvetica,Arial,sans-serif;
+  line-height: 1.6;
+  display: block;
+}
+
+.card-content :deep(.voc .card) {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.card-content :deep(.voc .head) {
+  display: none; /* 앞면에 이미 표시됨 */
 }
 
 .card-content :deep(.voc .hw) {
@@ -483,22 +504,62 @@ onErrorCaptured((err) => {
 }
 
 .card-content :deep(.voc .defs) {
+  margin-top: 0;
+  padding: 10px;
+  background: var(--color-surface-alt, #f9fafb);
+  border-radius: 12px;
   margin-bottom: 16px;
 }
 
+.card-content :deep(.voc .pos) {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--color-brand-bg, #eef2ff);
+  color: var(--color-brand-text, #3730a3);
+  font-size: 12px;
+  margin-right: 6px;
+}
+
+.card-content :deep(.voc .mean) {
+  color: var(--color-text-secondary, #374151);
+}
+
 .card-content :deep(.voc .examples) {
-  margin-top: 12px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .card-content :deep(.voc .ex) {
-  padding: 8px 10px;
-  margin-bottom: 8px;
-  background: rgba(0,0,0,0.02);
-  border-radius: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border-light, #f3f4f6);
+  border-radius: 12px;
+  background: var(--color-surface-subtle, #fcfcfd);
+}
+
+.card-content :deep(.voc .en) {
+  color: var(--color-text);
+}
+
+.card-content :deep(.voc .ko) {
+  color: var(--color-text-muted, #4b5563);
+  margin-top: 6px;
 }
 
 .card-content :deep(.voc .year-tag) {
-  font-size: 11px;
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: var(--color-warning-bg, #fde68a);
+  color: var(--color-warning-text, #92400e);
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .card-actions {

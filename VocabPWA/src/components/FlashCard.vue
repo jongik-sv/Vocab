@@ -96,6 +96,9 @@ onMounted(async () => {
 .back { 
   transform: rotateY(180deg); 
   background: linear-gradient(180deg, var(--color-surface), color-mix(in oklab, var(--color-surface) 95%, var(--color-brand) 3%));
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
 }
 
 .head { 
@@ -112,7 +115,6 @@ onMounted(async () => {
   line-height: 1.6;
   color: var(--color-text);
   overflow-y: auto;
-  max-height: 180px;
   width: 100%;
 }
 
@@ -130,15 +132,94 @@ onMounted(async () => {
   margin: 8px 0;
 }
 
-.content :deep(section.voc) {
-  width: 100%;
+/* 단어장 스타일과 동일하게 적용 */
+.content :deep(.voc) {
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,'Apple SD Gothic Neo','Noto Sans KR',Helvetica,Arial,sans-serif;
+  line-height: 1.6;
+  display: block;
 }
 
-.content :deep(article.card) {
+.content :deep(.voc .card) {
   background: transparent;
   border: none;
-  box-shadow: none;
+  border-radius: 0;
   padding: 0;
+  box-shadow: none;
+}
+
+.content :deep(.voc .head) {
+  display: none; /* 앞면에 이미 표시됨 */
+}
+
+.content :deep(.voc .hw) {
+  display: none; /* 앞면에 이미 표시됨 */
+}
+
+.content :deep(.voc .phon) {
+  display: none; /* 앞면에 이미 표시됨 */
+}
+
+.content :deep(.voc .meta) {
+  display: none; /* 번호는 위에 표시됨 */
+}
+
+.content :deep(.voc .defs) {
+  margin-top: 0;
+  padding: 10px;
+  background: var(--color-surface-alt, #f9fafb);
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.content :deep(.voc .pos) {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--color-brand-bg, #eef2ff);
+  color: var(--color-brand-text, #3730a3);
+  font-size: 12px;
+  margin-right: 6px;
+}
+
+.content :deep(.voc .mean) {
+  color: var(--color-text-secondary, #374151);
+}
+
+.content :deep(.voc .examples) {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.content :deep(.voc .ex) {
+  padding: 10px 12px;
+  border: 1px solid var(--color-border-light, #f3f4f6);
+  border-radius: 12px;
+  background: var(--color-surface-subtle, #fcfcfd);
+}
+
+.content :deep(.voc .en) {
+  color: var(--color-text);
+}
+
+.content :deep(.voc .ko) {
+  color: var(--color-text-muted, #4b5563);
+  margin-top: 6px;
+}
+
+.content :deep(.voc .year-tag) {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: var(--color-warning-bg, #fde68a);
+  color: var(--color-warning-text, #92400e);
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .actions { 
