@@ -4,7 +4,7 @@
       <div class="inner" :class="{ flipped: flip }">
         <section class="face front">
           <div class="head">{{ word.headword }}</div>
-          <button class="btn btnGhost" @click.stop="store.speakNow(word.headword)">🔊 발음</button>
+          <button class="btn btnGhost" @click.stop="handleSpeak">🔊 발음</button>
         </section>
         <section class="face back">
           <div class="content" v-html="word.html_content" />
@@ -21,6 +21,7 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
 import { useStudyStore } from '../stores/study'
+import { enableUserInteraction } from '../utils/tts'
 
 const props = defineProps<{ word: any }>()
 
@@ -32,6 +33,12 @@ const emit = defineEmits<{
 
 const flip = ref(false)
 const store = useStudyStore()
+
+const handleSpeak = async () => {
+  // Chrome에서 사용자 상호작용 활성화
+  enableUserInteraction()
+  await store.speakNow(props.word.headword, true)
+}
 
 watch(() => props.word?.id, () => { flip.value = false })
 onMounted(async () => {

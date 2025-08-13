@@ -167,13 +167,22 @@ export const useStudyStore = defineStore('study', {
         await speak(text, { 
           lang: this.ttsLang, 
           rate: this.ttsRate,
-          retries: 2  // 최대 2회 재시도
+          retries: 3  // Chrome에서는 더 많은 재시도
         })
         console.log('Store: 음성 재생 완료')
       } catch (error) {
         console.error('Store: 음성 재생 실패:', error)
         if (showError) {
-          alert(`음성 재생 실패: ${error.message}`)
+          const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
+          let errorMsg = `음성 재생 실패: ${error.message}`
+          
+          if (isChrome && error.message.includes('not-allowed')) {
+            errorMsg += '\n\nChrome 브라우저에서는 음성 권한이 필요합니다.\n브라우저 설정에서 사이트 권한을 확인해주세요.'
+          } else if (isChrome && error.message.includes('synthesis-failed')) {
+            errorMsg += '\n\nChrome에서 음성 합성에 실패했습니다.\n잠시 후 다시 시도해보세요.'
+          }
+          
+          alert(errorMsg)
         }
       }
     },
