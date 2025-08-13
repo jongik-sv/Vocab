@@ -276,6 +276,50 @@ export const useStudyStore = defineStore('study', {
       }
     },
 
+    // 선택된 범위의 모든 단어 외움 상태 초기화
+    async resetMemoryStatus() {
+      const { db, persist } = await getDB()
+      
+      try {
+        let conditions = []
+        
+        // 챕터가 선택된 경우 (챕터 우선)
+        if (this.activeChapter !== 'all') {
+          conditions.push(`w.chapter_id=${Number(this.activeChapter)}`)
+        }
+        // 노트북이 선택되고 챕터가 'all'인 경우
+        else if (this.activeNotebook !== 'all') {
+          conditions.push(`w.notebook_id=${Number(this.activeNotebook)}`)
+        }
+        
+        let whereClause = ''
+        if (conditions.length > 0) {
+          whereClause = `WHERE ${conditions.join(' AND ')}`
+        }
+        
+        // 해당 범위의 모든 단어들의 외움 상태를 NEW로 초기화
+        const resetQuery = `
+          UPDATE word_status 
+          SET status='NEW', last_reviewed_at=NULL, next_due_at=NULL 
+          WHERE word_id IN (
+            SELECT w.id FROM words w ${whereClause}
+          )
+        `
+        
+        const result = db.run(resetQuery)
+        console.log(`외움 상태 초기화 완료: ${result.changes}개 단어 초기화됨`)
+        
+        await persist()
+        await this.refreshWords() // 상태 반영을 위해 다시 로드
+        
+        return result.changes // 초기화된 단어 개수 반환
+        
+      } catch (error) {
+        console.error('외움 상태 초기화 실패:', error)
+        throw error
+      }
+    },
+
     // 단어장(노트북) 삭제 - 연관된 챕터와 단어도 함께 삭제
     async deleteNotebook(notebookId: number) {
       const { db, persist } = await getDB()

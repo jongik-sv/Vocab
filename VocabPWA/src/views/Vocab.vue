@@ -52,6 +52,9 @@
 
         <button class="btn" @click="addSample">샘플 추가</button> -->
         <button class="btn" @click="backup">백업(JSON)</button>
+        <button class="btn" @click="resetMemoryStatus" style="background:#f97316; color:white" title="선택된 범위의 모든 단어를 미학습 상태로 초기화">
+          📚 외움 상태 초기화
+        </button>
         <label class="btn" style="background:#8b5cf6; color:white">
           DB 파일 내보내기
           <span @click="exportDB" style="cursor:pointer">💾</span>
@@ -347,6 +350,36 @@ const toggleMemorized = async (wordId: number) => {
   } catch (error) {
     console.error('외움 상태 토글 실패:', error)
     alert('외움 상태 변경 중 오류가 발생했습니다: ' + error.message)
+  }
+}
+
+// 외움 상태 초기화
+const resetMemoryStatus = async () => {
+  try {
+    // 현재 선택된 범위 확인
+    const notebookName = store.activeNotebook === 'all' ? '모든 단어장' : 
+      store.notebooks.find(n => n.id === Number(store.activeNotebook))?.name || '단어장'
+    const chapterName = store.activeChapter === 'all' ? '모든 챕터' : 
+      chaptersFiltered.value.find(c => c.id === Number(store.activeChapter))?.name || '챕터'
+    
+    const range = `${notebookName} > ${chapterName}`
+    const memorizedCount = words.value.filter(w => w.status === 'MEMORIZED').length
+    
+    if (memorizedCount === 0) {
+      alert('초기화할 외워진 단어가 없습니다.')
+      return
+    }
+    
+    const confirmed = confirm(`선택된 범위의 외움 상태를 초기화하시겠습니까?\n\n📍 범위: ${range}\n🔄 초기화될 단어: ${memorizedCount}개\n\n⚠️ 모든 '외워짐' 단어가 '미학습' 상태로 변경됩니다.\n이 작업은 되돌릴 수 없습니다.`)
+    
+    if (confirmed) {
+      const resetCount = await store.resetMemoryStatus()
+      alert(`외움 상태 초기화 완료!\n\n📍 범위: ${range}\n🔄 초기화된 단어: ${resetCount}개`)
+    }
+    
+  } catch (error) {
+    console.error('외움 상태 초기화 실패:', error)
+    alert('외움 상태 초기화 중 오류가 발생했습니다: ' + error.message)
   }
 }
 </script>
