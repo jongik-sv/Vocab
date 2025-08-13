@@ -94,7 +94,7 @@ export const useStudyStore = defineStore('study', {
       
       console.log(`refreshWords 쿼리: SELECT * FROM words ${where}`)
       
-      const res = db.exec(`SELECT id, notebook_id, chapter_id, headword, phonetic, html_content, tags FROM words ${where} ORDER BY id DESC`)
+      const res = db.exec(`SELECT id, notebook_id, chapter_id, headword, phonetic, html_content, tags FROM words ${where} ORDER BY id ASC`)
       this.words = res[0]?.values.map(r => ({
         id: r[0], notebook_id: r[1], chapter_id: r[2],
         headword: r[3], phonetic: r[4], html_content: r[5], tags: r[6]
